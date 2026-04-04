@@ -47,3 +47,17 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Python
+__pycache__/
+*.pyc
+venv/
+*.egg-info/
+
+# Secrets & Tokens (NEVER commit these)
+.env
+artifacts/api-server-python/.env
+artifacts/api-server-python/linkedin_token.json
+
+# Test scripts
+test_linkedin.py

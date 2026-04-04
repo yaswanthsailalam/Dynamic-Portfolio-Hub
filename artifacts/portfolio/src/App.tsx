@@ -14,6 +14,7 @@ import AutomationSection from "./components/sections/AutomationSection";
 import InsightsSection from "./components/sections/InsightsSection";
 import ContactSection from "./components/sections/ContactSection";
 import ResumeSection from "./components/sections/ResumeSection";
+import AdminSection from "./components/sections/AdminSection";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ function PortfolioLayout() {
       );
       case "Insights": return <InsightsSection />;
       case "Contact":  return <ContactSection />;
+      case "Admin":    return <AdminSection />;
       default:         return <HomeSection navigateTo={handleNavClick} />;
     }
   };
@@ -253,7 +255,12 @@ function PortfolioLayout() {
 
       {/* ── Footer ── */}
       <footer className="h-12 shrink-0 border-t border-border/40 bg-card/50 backdrop-blur z-40 flex items-center justify-between px-6 md:px-10 text-xs text-muted-foreground">
-        <p>© {new Date().getFullYear()} InsightFlow. All rights reserved.</p>
+        <div className="flex items-center gap-2">
+          <p>© {new Date().getFullYear()} InsightFlow. All rights reserved.</p>
+          <button onClick={() => handleNavClick("Admin")} className="opacity-0 hover:opacity-100 transition-opacity ml-2 px-2 py-1 bg-secondary rounded">
+            Admin
+          </button>
+        </div>
         <div className="flex gap-4">
           <button onClick={() => handleNavClick("Contact")} className="hover:text-primary transition-colors">Contact</button>
           <a href="https://www.linkedin.com/in/yaswanth-sai-lalam-4969b236a" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">LinkedIn</a>

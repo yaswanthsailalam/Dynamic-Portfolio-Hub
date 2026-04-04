@@ -1,0 +1,14 @@
+{
+  "name": "@workspace/api-server-python",
+  "version": "1.0.0",
+  "description": "Python FastAPI backend for Portfolio",
+  "private": true,
+  "scripts": {
+    "dev": "python main.py",
+    "start": "python main.py",
+    "prod": "set ENVIRONMENT=production && python main.py"
+  },
+  "engines": {
+    "python": ">=3.9"
+  }
+}

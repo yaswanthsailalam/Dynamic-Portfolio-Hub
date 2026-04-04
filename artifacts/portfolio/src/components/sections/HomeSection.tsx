@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Mail } from "lucide-react";
+import GitHubActivity from "@/components/widgets/GitHubActivity";
 
 interface HomeSectionProps {
   navigateTo: (section: string) => void;
@@ -8,6 +9,7 @@ interface HomeSectionProps {
 
 export default function HomeSection({ navigateTo }: HomeSectionProps) {
   return (
+    <>
     <div className="relative flex flex-col items-center justify-center min-h-[80vh] w-full rounded-3xl overflow-hidden glass-panel border-0">
       <div 
         className="absolute inset-0 z-0 opacity-20 bg-cover bg-center"
@@ -71,5 +73,19 @@ export default function HomeSection({ navigateTo }: HomeSectionProps) {
         </motion.div>
       </div>
     </div>
+
+    {/* GitHub Activity Feed */}
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.5 }}
+      className="mt-12 w-full max-w-2xl mx-auto"
+    >
+      <div className="glass-panel rounded-2xl border border-border/40 p-6">
+        <GitHubActivity />
+      </div>
+    </motion.div>
+    </>
   );
 }
+

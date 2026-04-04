@@ -1,0 +1,72 @@
+{
+  "projects": [
+    {
+      "id": "proj-1",
+      "title": "Enterprise Sales & Operations Reconciliation System",
+      "description": "Designed a fully automated, one-click VBA application to consolidate internal operational records with daily sales transaction data. The solution replaces a highly manual, error-prone daily task with a robust, scalable macro that cleans, filters, and matches multiple data sources in seconds.",
+      "tags": [
+        "Excel VBA",
+        "Data Pipeline",
+        "Process Automation"
+      ],
+      "linkedinTagsString": "#ExcelVBA #ProcessAutomation #DataPipeline #RPA #Automation #VBA #DigitalTransformation #ProcessImprovement #OpenToWork",
+      "image": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80",
+      "workflowDiagram": "/vba_simple_workflow.png",
+      "metric": "95%+ Processing Time Reduction",
+      "features": [
+        "Automated ingestion from shared network folders without manual intervention",
+        "Dynamically cleans datasets and filters non-essential operational parameters",
+        "Robust identity matching logic mapped against validated source points",
+        "One-click generation of standardized, audit-ready financial and operational reports"
+      ],
+      "impact": "Reduced processing time by over 95%, completely eliminating manual copy-paste errors and filtering inconsistencies. This optimization freed the operations team to focus on higher-value data analysis.",
+      "challenges": [
+        "Developing extremely fast dictionary-based cross-referencing to match operational IDs against dynamic locations without relying on slow VLOOKUP functions",
+        "Handling heavily inconsistent raw data structures, requiring dynamic identification of columns and blank rows across varying monthly formats",
+        "Ensuring application stability and execution efficiency while directly manipulating thousands of spreadsheet rows within memory limits"
+      ],
+      "performanceMetrics": [
+        "Processed robust datasets of ~16,000 rows across all cleaning, validating, and matching stages in just 10-15 seconds",
+        "Reduced the baseline manual file configuration and data parsing time from 30-60 minutes down to zero"
+      ],
+      "workflow": [
+        {
+          "icon": "HardDrive",
+          "title": "Data Ingestion",
+          "description": "Automatically reads and imports multiple source files from shared directories."
+        },
+        {
+          "icon": "Filter",
+          "title": "Intelligent Cleaning",
+          "description": "Strips out empty records and dynamically filters non-essential data columns."
+        },
+        {
+          "icon": "Zap",
+          "title": "Data Reconciliation",
+          "description": "Processes structured matching logic to reliably cross-reference operational IDs with corresponding sales."
+        },
+        {
+          "icon": "FileCheck",
+          "title": "Final Reporting",
+          "description": "Outputs a clean, standardized, and audit-ready dataset for stakeholders."
+        }
+      ],
+      "codeSnippets": [
+        {
+          "filename": "Reconciliation_Engine.vba",
+          "language": "vba",
+          "code": "Sub RunReconciliationEngine()\n    ' Initialize Dictionary for fast in-memory matching\n    Dim dictSales As Object\n    Set dictSales = CreateObject(\"Scripting.Dictionary\")\n    \n    ' Load raw data into variant arrays to bypass slow sheet interactions\n    Dim rawData As Variant\n    rawData = Sheets(\"RawSales\").Range(\"A1:F16000\").Value\n    \n    ' Build index\n    Dim i As Long\n    For i = 2 To UBound(rawData, 1)\n        If Not dictSales.exists(rawData(i, 1)) Then\n            dictSales.Add rawData(i, 1), rawData(i, 6) ' Map ID to Revenue\n        End If\n    Next i\n    \n    ' Perform matching against operational records in milliseconds\n    Dim opData As Variant\n    opData = Sheets(\"Operations\").Range(\"A1:C5000\").Value\n    \n    For i = 2 To UBound(opData, 1)\n        If dictSales.exists(opData(i, 1)) Then\n            opData(i, 3) = dictSales(opData(i, 1)) ' Inject matched data\n        Else\n            opData(i, 3) = \"Unmatched\"\n        End If\n    Next i\n    \n    ' Write back in one batch operation\n    Sheets(\"Operations\").Range(\"A1:C5000\").Value = opData\nEnd Sub"
+        }
+      ]
+    }
+  ],
+  "posts": [
+    {
+      "id": "e3ee7156-3375-4a93-abb6-4d46177aaf6e",
+      "project_id": "proj-1",
+      "content": "Just delivered a project that achieved 95%+ Processing Time Reduction with the Enterprise Sales & Operations Reconciliation System! \ud83d\ude80\n\nBefore this, the baseline process was a massive operational bottleneck.\n\nInstead of relying on slow, error-prone manual work, I engineered a robust solution using Excel VBA, Data Pipeline, Process Automation.\n\nDesigned a fully automated, one-click VBA application to consolidate internal operational records with daily sales transaction data. The solution replaces a highly manual, error-prone daily task with a robust, scalable macro that cleans, filters, and matches multiple data sources in seconds.\n\n\u2699\ufe0f How it works under the hood:\n\u26a1 Data Ingestion \u2192 Automatically reads and imports multiple source files from shared directories\n\u26a1 Intelligent Cleaning \u2192 Strips out empty records and dynamically filters non-essential data columns\n\u26a1 Data Reconciliation \u2192 Processes structured matching logic to reliably cross-reference operational IDs with corresponding sales\n\u26a1 Final Reporting \u2192 Outputs a clean, standardized, and audit-ready dataset for stakeholders\n\n\ud83d\udcc8 The Impact:\nReduced processing time by over 95%, completely eliminating manual copy-paste errors and filtering inconsistencies. This optimization freed the operations team to focus on higher-value data analysis.\n\n\u2705 Processed robust datasets of ~16,000 rows across all cleaning, validating, and matching stages in just 10-15 seconds\n\u2705 Reduced the baseline manual file configuration and data parsing time from 30-60 minutes down to zero\n\n\ud83d\udca1 Key Takeaway: One of the biggest hurdles was developing extremely fast dictionary-based cross-referencing to match operational ids against dynamic locations without relying on slow vlookup functions. Overcoming this taught me how crucial efficient data structures are when scaling operations.\n\nWhat\u2019s the biggest manual bottleneck you\u2019ve faced in your daily workflows? Drop it in the comments \ud83d\udc47\n\n#ExcelVBA #ProcessAutomation #DataPipeline #RPA #Automation #VBA #DigitalTransformation #ProcessImprovement #OpenToWork",
+      "image": "/vba_simple_workflow.png",
+      "status": "published"
+    }
+  ]
+}
