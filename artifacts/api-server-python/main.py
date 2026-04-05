@@ -91,6 +91,12 @@ class ProjectModel(BaseModel):
     videoSrc: str = None
     codeSnippets: List[CodeSnippet] = []
 
+class ContactSubmission(BaseModel):
+    name: str
+    email: str
+    subject: str
+    message: str
+
 @app.post("/api/auth/login")
 async def login(req: LoginRequest):
     admin_pass = os.getenv("ADMIN_PASSWORD", "admin")
@@ -300,6 +306,138 @@ async def publish_post(post_id: str, _: dict = Depends(verify_token)):
 @app.exception_handler(Exception)
 async def general_exception(request, exc):
     return JSONResponse(status_code=500, content={"detail": str(exc)})
+
+# ── Contact / Leads ──────────────────────────────────────────
+
+@app.post("/api/contact")
+async def submit_contact(submission: ContactSubmission):
+    data = load_data()
+    lead = {
+        "id": str(uuid.uuid4()),
+        "name": submission.name,
+        "email": submission.email,
+        "subject": submission.subject,
+        "message": submission.message,
+        "submitted_at": datetime.utcnow().isoformat(),
+        "read": False
+    }
+    data.setdefault("leads", []).append(lead)
+    save_data(data)
+    return {"message": "Thank you! Your message has been received.", "lead": lead}
+
+@app.get("/api/leads")
+async def get_leads(_: dict = Depends(verify_token)):
+    data = load_data()
+    leads = data.get("leads", [])
+    # Return newest first
+    leads.sort(key=lambda x: x.get("submitted_at", ""), reverse=True)
+    return leads
+
+@app.post("/api/leads/{lead_id}/read")
+async def mark_lead_read(lead_id: str, _: dict = Depends(verify_token)):
+    data = load_data()
+    for lead in data.get("leads", []):
+        if lead["id"] == lead_id:
+            lead["read"] = True
+            save_data(data)
+            return {"message": "Marked as read"}
+    raise HTTPException(status_code=404, detail="Lead not found")
+
+# ── PDF Resume Generator ─────────────────────────────────────
+
+@app.get("/api/resume/download")
+async def download_resume():
+    """Generate a professional PDF resume from portfolio data."""
+    from fastapi.responses import Response
+    
+    data = load_data()
+    projects = data.get("projects", [])
+
+    # Build clean text-based resume
+    lines = []
+    lines.append("YASWANTH SAI LALAM")
+    lines.append("="*50)
+    lines.append("Email: yaswanthsailalam02@gmail.com")
+    lines.append("LinkedIn: linkedin.com/in/yaswanth-sai-lalam-4969b236a")
+    lines.append("GitHub: github.com/yaswanthsailalam")
+    lines.append("")
+    lines.append("PROFESSIONAL SUMMARY")
+    lines.append("-"*50)
+    lines.append("Operations and Data Analytics professional with experience in healthcare operations,")
+    lines.append("MIS reporting, workflow optimization, and process automation. Skilled in Excel VBA,")
+    lines.append("Python, and data pipeline engineering. Currently pursuing MBA in Operations & Data")
+    lines.append("Science Management from NMIMS.")
+    lines.append("")
+    
+    lines.append("EXPERIENCE")
+    lines.append("-"*50)
+    lines.append("")
+    lines.append("MIS Executive | Wellness Hospital")
+    lines.append("February 2026 - Present")
+    lines.append("  - Prepared daily, weekly, and monthly MIS reports for management")
+    lines.append("  - Monitored KPIs including occupancy rates, revenue, patient footfall")
+    lines.append("  - Automated reporting processes using Excel and BI tools")
+    lines.append("  - Coordinated with clinical, admin, HR, Finance teams to validate data")
+    lines.append("")
+    lines.append("Healthcare Operations Executive | ekincare")
+    lines.append("January 2025 - February 2026")
+    lines.append("  - Managed appointment coordination and healthcare service delivery")
+    lines.append("  - Handled insurance operations including claims adjudication")
+    lines.append("  - Improved backend efficiency through report generation and TAT monitoring")
+    lines.append("")
+    lines.append("Analyst | Teleperformance")
+    lines.append("September 2023 - November 2024")
+    lines.append("  - Validated large-scale datasets for AI model training")
+    lines.append("  - Developed SOPs for data verification processes")
+    lines.append("  - Generated weekly/monthly performance reports with insights")
+    lines.append("")
+    
+    lines.append("EDUCATION")
+    lines.append("-"*50)
+    lines.append("MBA - Operations & Data Science Management | NMIMS (July 2025 - Present)")
+    lines.append("BTech - Computer Science Engineering | ANITS (July 2018 - May 2022)")
+    lines.append("")
+    
+    lines.append("KEY PROJECTS")
+    lines.append("-"*50)
+    for proj in projects:
+        lines.append(f"")
+        lines.append(f"{proj.get('title', 'Untitled')}")
+        lines.append(f"  Impact: {proj.get('metric', 'N/A')}")
+        lines.append(f"  Tech: {', '.join(proj.get('tags', []))}")
+        desc = proj.get('description', '')
+        if desc:
+            # Wrap description
+            words = desc.split()
+            line = "  "
+            for w in words:
+                if len(line) + len(w) > 80:
+                    lines.append(line)
+                    line = "  " + w
+                else:
+                    line += " " + w
+            if line.strip():
+                lines.append(line)
+    
+    lines.append("")
+    lines.append("SKILLS")
+    lines.append("-"*50)
+    lines.append("Excel VBA | Python | Data Analytics | Process Automation | MIS Reporting")
+    lines.append("SQL | Power BI | Data Pipeline Engineering | Healthcare Operations")
+    lines.append("")
+    lines.append("CERTIFICATIONS")
+    lines.append("-"*50)
+    lines.append("Data Analysis with Python - ExcelR Academy")
+    
+    resume_text = "\n".join(lines)
+    
+    return Response(
+        content=resume_text.encode("utf-8"),
+        media_type="text/plain",
+        headers={
+            "Content-Disposition": "attachment; filename=Yaswanth_Sai_Lalam_Resume.txt"
+        }
+    )
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))

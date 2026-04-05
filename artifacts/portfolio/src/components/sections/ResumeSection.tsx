@@ -86,7 +86,7 @@ export default function ResumeSection() {
           <div className="w-20 h-1.5 bg-primary rounded-full"></div>
         </div>
         <a
-          href="/Lalam_Yaswanth_Sai_Resume.pdf"
+          href="http://127.0.0.1:5000/api/resume/download"
           download
           className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm text-white transition-all duration-200 hover:brightness-110 hover:shadow-lg"
           style={{

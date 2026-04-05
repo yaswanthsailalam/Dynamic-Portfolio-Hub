@@ -6,7 +6,8 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, MapPin, Linkedin, Send, Download, MessageCircle, Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { Mail, MapPin, Linkedin, Send, Download, MessageCircle, Loader2, CheckCircle2 } from "lucide-react";
 
 const WHATSAPP_NUMBER = "919121511764";
 
@@ -51,21 +52,32 @@ export default function ContactSection() {
     );
   }, []);
 
+  const { toast } = useToast();
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
     defaultValues: { name: "", email: "", subject: "", message: "" },
   });
 
-  const onSubmit = (data: ContactFormValues) => {
-    const msg =
-      `*New Portfolio Inquiry*\n\n` +
-      `*Name:* ${data.name}\n` +
-      `*Email:* ${data.email}\n` +
-      `*Subject:* ${data.subject}\n` +
-      `*Message:* ${data.message}`;
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
-    window.open(url, "_blank", "noopener,noreferrer");
-    form.reset();
+  const onSubmit = async (formData: ContactFormValues) => {
+    setSubmitting(true);
+    try {
+      const res = await fetch("http://127.0.0.1:5000/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (!res.ok) throw new Error("Failed to submit");
+      setSubmitted(true);
+      toast({ title: "Message Sent! ✉️", description: "Thank you for reaching out. I'll get back to you soon!" });
+      form.reset();
+    } catch {
+      toast({ variant: "destructive", title: "Error", description: "Something went wrong. Please try WhatsApp instead." });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -188,7 +200,7 @@ export default function ContactSection() {
               <div>
                 <h4 className="text-lg font-medium mb-3">My Resume</h4>
                 <a
-                  href="#"
+                  href="http://127.0.0.1:5000/api/resume/download"
                   download
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm text-white transition-all duration-200 hover:brightness-110 hover:shadow-lg"
                   style={{
@@ -255,14 +267,24 @@ export default function ContactSection() {
                 )}
               </div>
 
+              {submitted ? (
+                <div className="flex flex-col items-center justify-center py-8 text-center">
+                  <CheckCircle2 className="w-12 h-12 text-green-500 mb-4" />
+                  <h4 className="text-xl font-bold mb-2">Message Received!</h4>
+                  <p className="text-muted-foreground mb-4">I'll get back to you within 24 hours.</p>
+                  <Button variant="outline" onClick={() => setSubmitted(false)}>Send Another</Button>
+                </div>
+              ) : (
               <Button
                 type="submit"
                 size="lg"
-                className="w-full h-14 text-lg gap-2 bg-green-600 hover:bg-green-500 text-white"
+                className="w-full h-14 text-lg gap-2"
+                disabled={submitting}
               >
-                <MessageCircle className="w-5 h-5" />
-                Send via WhatsApp
+                {submitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
+                {submitting ? "Sending..." : "Send Message"}
               </Button>
+              )}
             </form>
           </div>
         </motion.div>
