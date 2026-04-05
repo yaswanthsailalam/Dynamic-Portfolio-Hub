@@ -7,3 +7,7 @@ requests
 python-dotenv
 httpx
 PyJWT
+reportlab>=4.0.0
+pandas
+xlsxwriter
+openpyxl

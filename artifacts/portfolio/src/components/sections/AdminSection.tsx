@@ -5,7 +5,15 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Plus, Linkedin, CheckCircle2, AlertCircle, Database, LogOut, User, LockKeyhole, Mail, MessageSquare, Eye } from "lucide-react";
+import {
+  Loader2, Plus, Linkedin, CheckCircle2, AlertCircle, Database, LogOut,
+  User, LockKeyhole, Mail, MessageSquare, Eye, TrendingUp, BarChart2,
+  Download, MousePointer2, Clock, Globe
+} from "lucide-react";
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  LineChart, Line, Cell
+} from 'recharts';
 
 // Types mapping backend
 interface PendingPost {
@@ -44,7 +52,7 @@ export default function AdminSection() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("adminToken"));
   const [password, setPassword] = useState("");
   const [loginPending, setLoginPending] = useState(false);
-  const [activeTab, setActiveTab] = useState<"posts" | "leads">("posts");
+  const [activeTab, setActiveTab] = useState<"posts" | "leads" | "analytics">("analytics");
 
   const getHeaders = () => {
     const token = localStorage.getItem("adminToken");
@@ -61,13 +69,23 @@ export default function AdminSection() {
     },
   });
 
-  const { data: posts, isLoading } = useQuery<PendingPost[]>({
+  const { data: posts, isLoading: postsLoading } = useQuery<PendingPost[]>({
     queryKey: ["pendingPosts"],
     queryFn: async () => {
       const res = await fetch(`${API_BASE}/posts/pending`, { headers: getHeaders() });
       if (!res.ok) throw new Error("Failed to fetch posts");
       return res.json();
     },
+  });
+
+  const { data: statsData, isLoading: statsLoading } = useQuery({
+    queryKey: ["adminStats"],
+    queryFn: async () => {
+      const res = await fetch(`${API_BASE}/analytics/stats`, { headers: getHeaders() });
+      if (!res.ok) throw new Error("Failed to fetch stats");
+      return res.json();
+    },
+    refetchInterval: 30000,
   });
 
   const { data: projectsData } = useQuery<any[]>({
@@ -186,6 +204,29 @@ export default function AdminSection() {
     },
   });
 
+  const handleDownloadDashboard = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/analytics/export/dashboard`, {
+        headers: getHeaders(),
+      });
+      if (!res.ok) {
+        if (res.status === 401) throw new Error("Session expired. Please log in again.");
+        throw new Error("Failed to generate dashboard");
+      }
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `InsightFlow_Executive_Dashboard_${new Date().toISOString().split('T')[0]}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      a.remove();
+    } catch (err: any) {
+      toast({ variant: "destructive", title: "Download Error", description: err.message });
+    }
+  };
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginPending(true);
@@ -242,16 +283,35 @@ export default function AdminSection() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto py-12">
+    <div className="max-w-5xl mx-auto py-12">
       <div className="mb-12">
         <h2 className="text-3xl font-bold mb-4 flex items-center gap-3">
           <Linkedin className="w-8 h-8 text-blue-500" />
-          Social Poster Admin
+          InsightFlow Admin
         </h2>
         <div className="w-20 h-1.5 bg-blue-500 rounded-full mb-4" />
         <p className="text-muted-foreground text-lg">
-          Manage your incoming projects, approve drafted posts for LinkedIn, and review contact leads.
+          Monitor recruiter activity, manage projects, and review incoming leads.
         </p>
+      </div>
+
+      {/* Action Row */}
+      <div className="mb-10 flex flex-wrap gap-4">
+        <Button
+          onClick={handleDownloadDashboard}
+          className="bg-green-600 hover:bg-green-700 text-white shadow-lg shadow-green-500/20"
+        >
+          <Download className="w-4 h-4 mr-2" />
+          Download Executive Dashboard (.xlsx)
+        </Button>
+        <Button
+          variant="outline"
+          onClick={() => window.location.href = `${API_BASE}/resume/download`}
+          className="border-primary/20 hover:bg-primary/5"
+        >
+          <Download className="w-4 h-4 mr-2" />
+          Download Latest PDF Resume
+        </Button>
       </div>
 
       {/* LinkedIn Connection Card */}
@@ -292,6 +352,17 @@ export default function AdminSection() {
       {/* ── Tab Switcher ── */}
       <div className="flex gap-2 mb-8 flex-wrap">
         <button
+          onClick={() => setActiveTab("analytics")}
+          className={`px-5 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center gap-2 ${
+            activeTab === "analytics"
+              ? "bg-primary text-primary-foreground shadow-lg"
+              : "bg-secondary/30 text-muted-foreground hover:bg-secondary/60"
+          }`}
+        >
+          <TrendingUp className="w-4 h-4" />
+          Analytics &amp; KPI
+        </button>
+        <button
           onClick={() => setActiveTab("posts")}
           className={`px-5 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center gap-2 ${
             activeTab === "posts"
@@ -300,7 +371,7 @@ export default function AdminSection() {
           }`}
         >
           <Database className="w-4 h-4" />
-          Posts &amp; Projects
+          Projects &amp; Drafts
         </button>
         <button
           onClick={() => setActiveTab("leads")}
@@ -311,12 +382,114 @@ export default function AdminSection() {
           }`}
         >
           <Mail className="w-4 h-4" />
-          Contact Leads
+          Leads
           {unreadCount > 0 && (
             <span className="bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5">{unreadCount}</span>
           )}
         </button>
       </div>
+
+      {/* ── ANALYTICS TAB ── */}
+      {activeTab === "analytics" && (
+        <div className="space-y-8">
+          {/* KPI Row */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Card className="bg-card/40 border-border/50">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-lg bg-blue-500/10 text-blue-500"><Globe className="w-4 h-4" /></div>
+                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Site Views</span>
+                </div>
+                <h4 className="text-3xl font-bold">{statsData?.overview?.total_views || 0}</h4>
+              </CardContent>
+            </Card>
+            <Card className="bg-card/40 border-border/50">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-lg bg-green-500/10 text-green-500"><Download className="w-4 h-4" /></div>
+                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Downloads</span>
+                </div>
+                <h4 className="text-3xl font-bold">{statsData?.overview?.resume_downloads || 0}</h4>
+              </CardContent>
+            </Card>
+            <Card className="bg-card/40 border-border/50">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-lg bg-purple-500/10 text-purple-500"><Linkedin className="w-4 h-4" /></div>
+                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">GitHub Clicks</span>
+                </div>
+                <h4 className="text-3xl font-bold">{statsData?.overview?.github_clicks || 0}</h4>
+              </CardContent>
+            </Card>
+            <Card className="bg-card/40 border-border/50">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-lg bg-orange-500/10 text-orange-500"><MousePointer2 className="w-4 h-4" /></div>
+                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Leads / Funnel</span>
+                </div>
+                <h4 className="text-3xl font-bold">{statsData?.overview?.total_leads || 0}</h4>
+                <p className="text-[10px] text-muted-foreground mt-1">
+                  {statsData?.overview?.form_opens || 0} opens | {statsData?.overview?.conversion_rate || 0}% conv.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Traffic Trend */}
+            <Card className="bg-card/40 border-border/50">
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2 font-bold">
+                  <TrendingUp className="w-5 h-5 text-primary" /> Traffic Trend
+                </CardTitle>
+                <CardDescription>Daily engagement across the last 14 days</CardDescription>
+              </CardHeader>
+              <CardContent className="h-[300px] w-full pr-6">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={statsData?.trends || []}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#222" />
+                    <XAxis dataKey="date" stroke="#666" fontSize={10} tickFormatter={(v) => v.split('-')[2]} />
+                    <YAxis stroke="#666" fontSize={10} />
+                    <Tooltip
+                      contentStyle={{ backgroundColor: '#111', border: '1px solid #333', borderRadius: '8px' }}
+                      itemStyle={{ color: '#00C6FF' }}
+                    />
+                    <Line type="monotone" dataKey="views" stroke="#00C6FF" strokeWidth={3} dot={{ fill: '#00C6FF', r: 4 }} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+
+            {/* Project Popularity */}
+            <Card className="bg-card/40 border-border/50">
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2 font-bold">
+                  <BarChart2 className="w-5 h-5 text-primary" /> Popular Projects
+                </CardTitle>
+                <CardDescription>Views by individual case study</CardDescription>
+              </CardHeader>
+              <CardContent className="h-[300px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={statsData?.popular_projects || []} layout="vertical" margin={{ left: 40 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#222" horizontal={false} />
+                    <XAxis type="number" stroke="#666" fontSize={10} />
+                    <YAxis dataKey="title" type="category" stroke="#666" fontSize={10} width={100} />
+                    <Tooltip
+                      contentStyle={{ backgroundColor: '#111', border: '1px solid #333', borderRadius: '8px' }}
+                      cursor={{ fill: 'transparent' }}
+                    />
+                    <Bar dataKey="views" fill="#00C6FF" radius={[0, 4, 4, 0]}>
+                      {statsData?.popular_projects?.map((entry: any, index: number) => (
+                        <Cell key={`cell-${index}`} fill={index === 0 ? '#0072FF' : '#00C6FF'} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      )}
 
       {/* ── POSTS TAB ── */}
       {activeTab === "posts" && (
@@ -377,7 +550,7 @@ export default function AdminSection() {
               <AlertCircle className="w-5 h-5 text-yellow-500" />
               Pending Approvals
             </h3>
-            {isLoading ? (
+            {postsLoading ? (
               <div className="flex items-center justify-center p-12 text-muted-foreground">
                 <Loader2 className="w-8 h-8 animate-spin" />
               </div>

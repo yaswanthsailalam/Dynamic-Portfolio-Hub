@@ -68,5 +68,402 @@
       "image": "/vba_simple_workflow.png",
       "status": "published"
     }
+  ],
+  "leads": [
+    {
+      "id": "67b9cbbd-667b-4af4-8574-a86d7389794f",
+      "name": "sai",
+      "email": "archeus896@gmail.com",
+      "subject": "testing",
+      "message": "Testing the form submission",
+      "submitted_at": "2026-04-05T05:50:21.698833",
+      "read": true
+    }
+  ],
+  "analytics": [
+    {
+      "id": "8a52f689-d978-42e6-8489-413c86ed20fb",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T06:16:40.502713"
+    },
+    {
+      "id": "6deac4f1-1a7b-46d9-bf14-1cb223fd01dc",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T06:16:40.580725"
+    },
+    {
+      "id": "b691562b-219e-476e-8ef9-d43d9f5b7d17",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 77
+      },
+      "timestamp": "2026-04-05T06:17:54.088321"
+    },
+    {
+      "id": "9e4808f1-e7dc-410a-8d15-f9ca92534148",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T06:18:10.771402"
+    },
+    {
+      "id": "a8ca21f9-7db1-4cc3-b2db-018a9fd83c1c",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T06:18:10.828254"
+    },
+    {
+      "id": "7c26d8e3-9b8b-461a-adac-0611f0faa3f9",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-05T06:18:41.222678"
+    },
+    {
+      "id": "0c3bad5c-69fa-43dd-ace9-a662ce9b647e",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 60
+      },
+      "timestamp": "2026-04-05T06:19:11.222512"
+    },
+    {
+      "id": "815044e8-0ab7-45dc-a0d1-d9c69c89c801",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 90
+      },
+      "timestamp": "2026-04-05T06:19:41.209552"
+    },
+    {
+      "id": "18998407-5211-4ffe-9c7a-b1370f4b171b",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 120
+      },
+      "timestamp": "2026-04-05T06:20:11.213533"
+    },
+    {
+      "id": "afed7d3d-a26a-4462-a80a-bbda66379de0",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 150
+      },
+      "timestamp": "2026-04-05T06:20:41.216410"
+    },
+    {
+      "id": "5bb038de-1b2e-4c18-aec2-3f50fbba3067",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 180
+      },
+      "timestamp": "2026-04-05T06:21:11.214561"
+    },
+    {
+      "id": "981ad124-e772-4700-81a0-28412be2d70c",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 258
+      },
+      "timestamp": "2026-04-05T06:22:29.211912"
+    },
+    {
+      "id": "01e8ffa3-d705-465b-a689-1f236bab8111",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 318
+      },
+      "timestamp": "2026-04-05T06:23:29.212981"
+    },
+    {
+      "id": "3b339ef6-7e29-4cdc-8e35-5e50ac4d7090",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 378
+      },
+      "timestamp": "2026-04-05T06:24:29.216101"
+    },
+    {
+      "id": "3225712e-ac50-41ec-b515-818a619066ed",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T13:48:58.352129"
+    },
+    {
+      "id": "45979961-3f9d-4129-90f6-4dfed1fc526b",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T13:48:58.744228"
+    },
+    {
+      "id": "2d4cfc8a-ca6e-4026-9d42-1aa1eaabce3d",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 13
+      },
+      "timestamp": "2026-04-05T13:49:06.564145"
+    },
+    {
+      "id": "0ad3f522-3f7f-4e2b-9f37-0b713dc04e0d",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T13:49:31.332732"
+    },
+    {
+      "id": "041dbe2c-4d09-4e02-b046-7fc7725829db",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 2
+      },
+      "timestamp": "2026-04-05T13:49:31.605988"
+    },
+    {
+      "id": "51949007-64f5-4434-843f-6aab34c9f8e6",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T13:49:41.824325"
+    },
+    {
+      "id": "17579198-26db-4901-83d5-41a8c43f69ed",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T13:49:41.901257"
+    },
+    {
+      "id": "aade5634-ffcf-4bc5-81cb-4e022429d11a",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 31
+      },
+      "timestamp": "2026-04-05T13:50:12.196235"
+    },
+    {
+      "id": "bfae87fb-ba23-41a3-be9c-424a4755da71",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 110
+      },
+      "timestamp": "2026-04-05T13:51:30.834903"
+    },
+    {
+      "id": "659c0e7f-d320-4f13-9ea2-0075f9b64d80",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 121
+      },
+      "timestamp": "2026-04-05T13:51:42.298651"
+    },
+    {
+      "id": "ddc7a0e5-8ee5-4dc3-a8e9-4a82a9e8b0a3",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 176
+      },
+      "timestamp": "2026-04-05T13:52:37.608352"
+    },
+    {
+      "id": "cc5c6c88-10a1-4113-aae0-ba4377b8e54d",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 181
+      },
+      "timestamp": "2026-04-05T13:52:42.658888"
+    },
+    {
+      "id": "6fe127a8-8d52-4392-a068-e61e34c2cebe",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 186
+      },
+      "timestamp": "2026-04-05T13:52:47.190039"
+    },
+    {
+      "id": "8e8c317f-1e7d-4991-bfdd-c65504ee1539",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T14:16:29.521223"
+    },
+    {
+      "id": "070410d3-f3fe-49c2-994d-2e23e0757545",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T14:16:29.905983"
+    },
+    {
+      "id": "2dcf84d6-8399-4f10-9014-5b3e0b980981",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 4
+      },
+      "timestamp": "2026-04-05T14:16:31.267337"
+    },
+    {
+      "id": "4752438c-1aa5-45e2-82b7-e7aa96e0990a",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T14:17:21.647528"
+    },
+    {
+      "id": "aec9fd66-d3ac-4825-ad99-ed539a33b406",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T14:17:22.588697"
+    },
+    {
+      "id": "6e7eef9c-aa13-402c-a75e-3cc1f402a7f8",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 7
+      },
+      "timestamp": "2026-04-05T14:17:29.271360"
+    },
+    {
+      "id": "560d1811-3f03-4a46-9b90-423959751603",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T14:17:51.127923"
+    },
+    {
+      "id": "1cc65092-fcce-43f2-8164-25a04975ebe0",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T14:17:51.216908"
+    },
+    {
+      "id": "c07f42af-0f36-4874-ba06-2d5cbbe1ddbc",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 7
+      },
+      "timestamp": "2026-04-05T14:17:58.455917"
+    }
+  ],
+  "experience": [
+    {
+      "title": "MIS Executive",
+      "company": "Prodify Innovatives",
+      "period": "February 2026 - Present",
+      "description": "Managing comprehensive data architectures, tracking operational KPIs, and delivering analytical insights through MIS reporting to support strategic decisions and process improvement.",
+      "achievements": [
+        "Spearheaded the management of comprehensive operational data, tracking operational KPIs and delivering critical analytical insights through MIS reporting.",
+        "Collected, compiled, and analyzed hospital operational data pertaining to wellness programs and clinical support services.",
+        "Prepared and presented daily, weekly, and monthly MIS reports to management and department heads.",
+        "Maintained accurate and up-to-date records of patient statistics, OPD/IPD data, and wellness program outcomes.",
+        "Monitored and tracked key performance indicators (KPIs), including occupancy rates, revenue, patient footfall, and performance.",
+        "Delivered data-driven insights and analytical support to management for strategic decision-making.",
+        "Ensured accuracy, consistency, and timely submission of crucial reports across all departments.",
+        "Coordinated effectively with clinical, administrative, HR, finance, and wellness teams to collect required data inputs.",
+        "Managed essential information systems, MIS dashboards, and databases.",
+        "Supported internal and external audits, compliance requirements, and management review meetings.",
+        "Automated and optimized routine reporting processes utilizing advanced Excel techniques and business intelligence software.",
+        "Analyzed critical trends, identified operational gaps, and recommended strategic opportunities."
+      ]
+    },
+    {
+      "title": "Healthcare Operations Executive",
+      "company": "ekincare",
+      "period": "January 2025 - February 2026",
+      "description": "Orchestrated end-to-end healthcare service delivery, handled insurance operations, and managed claims adjudication for corporate clients and provider networks.",
+      "achievements": [
+        "Orchestrated end-to-end healthcare service delivery, managed complex insurance operations, and expertly handled claims adjudication.",
+        "Managed comprehensive end-to-end appointment coordination and healthcare service delivery for corporate clientele.",
+        "Processed customer queries concerning prescriptions, laboratory tests, consultations, and order fulfilment.",
+        "Managed critical insurance operations, including claims adjudication, cashless approval processing, and complex authorisation workflows.",
+        "Coordinated diligently with hospitals, TPAs, and internal stakeholders to expedite cashless authorisations.",
+        "Applied structured escalation frameworks to efficiently resolve service disruptions and complex claim-related issues.",
+        "Maintained meticulous operational records, including service request tracking and claims status updates.",
+        "Ensured stringent compliance with SOPs, specific policy guidelines, and established quality benchmarks.",
+        "Improved backend operational efficiency through rigorous report generation and proactive TAT monitoring."
+      ]
+    },
+    {
+      "title": "Analyst",
+      "company": "Teleperformance",
+      "period": "September 2023 - November 2024",
+      "description": "Validated large-scale datasets for accuracy, reliability, and suitability for AI model training. Contributed to backend testing and SOP development.",
+      "achievements": [
+        "Validated large-scale datasets with strong attention to detail for accuracy, reliability, and suitability for subsequent AI model training.",
+        "Assessed extensive training data against critical compliance standards and rigorous quality guidelines.",
+        "Developed comprehensive, structured documentation and Standard Operating Procedures (SOPs) for data verification.",
+        "Conducted in-depth backend data testing to actively support AI tool development and performance optimization.",
+        "Maintained exceptionally high levels of data accuracy and unwavering compliance adherence across all validation tasks.",
+        "Generated precise weekly and monthly performance reports incorporating detailed analytical insights.",
+        "Applied analytical rigor and outstanding attention to detail while managing high-volume data operations."
+      ]
+    }
   ]
 }

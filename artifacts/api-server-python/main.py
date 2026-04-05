@@ -97,6 +97,12 @@ class ContactSubmission(BaseModel):
     subject: str
     message: str
 
+class AnalyticsEvent(BaseModel):
+    event_type: str
+    resource_id: str = ""
+    metadata: dict = {}
+    session_id: str = ""
+
 @app.post("/api/auth/login")
 async def login(req: LoginRequest):
     admin_pass = os.getenv("ADMIN_PASSWORD", "admin")
@@ -343,99 +349,272 @@ async def mark_lead_read(lead_id: str, _: dict = Depends(verify_token)):
             return {"message": "Marked as read"}
     raise HTTPException(status_code=404, detail="Lead not found")
 
+# ── Analytics ────────────────────────────────────────────────
+
+@app.post("/api/analytics/track")
+async def track_event(event: AnalyticsEvent):
+    data = load_data()
+    analytics_entry = {
+        "id": str(uuid.uuid4()),
+        "event_type": event.event_type,
+        "resource_id": event.resource_id,
+        "session_id": event.session_id,
+        "metadata": event.metadata,
+        "timestamp": datetime.utcnow().isoformat()
+    }
+    data.setdefault("analytics", []).append(analytics_entry)
+    save_data(data)
+    return {"status": "ok"}
+
+@app.get("/api/analytics/stats")
+async def get_analytics_stats(_: dict = Depends(verify_token)):
+    data = load_data()
+    analytics = data.get("analytics", [])
+    projects = data.get("projects", [])
+    leads = data.get("leads", [])
+    
+    # 1. Traffic Trends (Last 14 days)
+    now = datetime.utcnow()
+    days = [(now - timedelta(days=i)).date().isoformat() for i in range(13, -1, -1)]
+    trends = {day: 0 for day in days}
+    for entry in analytics:
+        date = entry["timestamp"].split("T")[0]
+        if date in trends:
+            trends[date] += 1
+            
+    # 2. Project Popularity
+    project_stats = {p["id"]: {"title": p["title"], "views": 0} for p in projects}
+    for entry in analytics:
+        if entry["event_type"] == "project_view" and entry["resource_id"] in project_stats:
+            project_stats[entry["resource_id"]]["views"] += 1
+            
+    # 4. Conversion Metrics
+    form_opens = sum(1 for e in analytics if e["event_type"] == "contact_form_open")
+    form_submits = len(leads)
+    conversion_rate = (form_submits / form_opens * 100) if form_opens > 0 else 0
+
+    return {
+        "overview": {
+            "total_views": total_views,
+            "resume_downloads": resume_downloads,
+            "github_clicks": github_clicks,
+            "total_leads": len(leads),
+            "form_opens": form_opens,
+            "conversion_rate": round(conversion_rate, 1)
+        },
+        "trends": [{"date": d, "views": v} for d, v in trends.items()],
+        "popular_projects": sorted(project_stats.values(), key=lambda x: x["views"], reverse=True)
+    }
+
+# ── Excel Dashboard Generator ───────────────────────────────
+
+@app.get("/api/analytics/export/dashboard")
+async def export_excel_dashboard(_: dict = Depends(verify_token)):
+    """Generate a professional MIS-style Excel Analytics Dashboard."""
+    import pandas as pd
+    from io import BytesIO
+    from fastapi.responses import Response
+
+    data = load_data()
+    analytics = data.get("analytics", [])
+    
+    if not analytics:
+        raise HTTPException(status_code=400, detail="No analytics data to export")
+
+    # Prepare DataFrames
+    df = pd.DataFrame(analytics)
+    # Convert timestamp to localized date
+    df['timestamp'] = pd.to_datetime(df['timestamp'])
+    df['date'] = df['timestamp'].dt.date
+    
+    # Aggregations for charts
+    daily_views = df[df['event_type'] == 'page_view'].groupby('date').size().reset_index(name='Views')
+    daily_views['date'] = daily_views['date'].astype(str)
+    
+    project_views = df[df['event_type'] == 'project_view'].groupby('resource_id').size().reset_index(name='Views')
+
+    # Create Excel in Memory
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+        workbook = writer.book
+        
+        # ── Dashboard Sheet ──
+        dashboard = workbook.add_worksheet('Executive Dashboard')
+        dashboard.set_column('A:A', 2)  # Margin
+        dashboard.set_column('B:B', 30) # labels
+        dashboard.set_column('C:E', 15) # values
+        
+        # Formats
+        title_fmt = workbook.add_format({'bold': True, 'font_size': 18, 'font_color': '#0072FF'})
+        header_fmt = workbook.add_format({'bold': True, 'bg_color': '#F2F2F2', 'border': 1, 'align': 'center'})
+        kpi_label_fmt = workbook.add_format({'font_color': '#666666', 'font_size': 10, 'bold': True})
+        kpi_val_fmt = workbook.add_format({'font_size': 16, 'bold': True, 'align': 'center', 'border': 1, 'bg_color': '#FFFFFF'})
+        
+        # Dashboard Title
+        dashboard.write('B2', 'InsightFlow Portfolio Performance Dashboard', title_fmt)
+        dashboard.write('B3', f'Report Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}')
+        
+        # KPI Section
+        kpis = [
+            ("Total Visitors", sum(1 for e in analytics if e["event_type"] == "page_view")),
+            ("Resume Downloads", sum(1 for e in analytics if e["event_type"] == "resume_download")),
+            ("GitHub Connections", sum(1 for e in analytics if e["event_type"] == "github_click")),
+            ("Total Leads", len(data.get("leads", [])))
+        ]
+        
+        for i, (label, val) in enumerate(kpis):
+            col = 1 + i # B, C, D, E
+            dashboard.write(4, col, label, kpi_label_fmt)
+            dashboard.write(5, col, val, kpi_val_fmt)
+
+        # ── Charts ──
+        # Data storage sheet (hidden)
+        data_sheet = workbook.add_worksheet('ChartData')
+        daily_views.to_excel(writer, sheet_name='ChartData', startrow=0, startcol=0, index=False)
+        project_views.to_excel(writer, sheet_name='ChartData', startrow=0, startcol=3, index=False)
+        
+        # Trend Chart (Line)
+        trend_chart = workbook.add_chart({'type': 'line'})
+        trend_chart.add_series({
+            'name':       'Daily Views',
+            'categories': ['ChartData', 1, 0, len(daily_views), 0],
+            'values':     ['ChartData', 1, 1, len(daily_views), 1],
+            'line':       {'color': '#00C6FF', 'width': 2.25},
+            'marker':     {'type': 'circle', 'size': 5, 'border': {'color': '#00C6FF'}, 'fill': {'color': 'white'}},
+        })
+        trend_chart.set_title({'name': 'Site Traffic Trend (Last 14 Days)'})
+        trend_chart.set_x_axis({'name': 'Date'})
+        trend_chart.set_y_axis({'name': 'Visitors'})
+        dashboard.insert_chart('B8', trend_chart, {'x_scale': 1.5, 'y_scale': 1.2})
+        
+        # Popularity Chart (Column)
+        pop_chart = workbook.add_chart({'type': 'column'})
+        pop_chart.add_series({
+            'name':       'Case Study Views',
+            'categories': ['ChartData', 1, 3, len(project_views), 3],
+            'values':     ['ChartData', 1, 4, len(project_views), 4],
+            'fill':       {'color': '#0072FF'},
+        })
+        pop_chart.set_title({'name': 'Project Case Study Popularity'})
+        dashboard.insert_chart('H8', pop_chart, {'x_scale': 1.2, 'y_scale': 1.2})
+
+        # Final Formatting
+        dashboard.hide_gridlines(2)
+        
+        # ── Raw Data Sheet ──
+        df_raw = pd.DataFrame(analytics)
+        df_raw.to_excel(writer, sheet_name='Analytics Log', index=False)
+
+    output.seek(0)
+    return Response(
+        content=output.getvalue(),
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers={"Content-Disposition": "attachment; filename=InsightFlow_Executive_Dashboard.xlsx"}
+    )
+
 # ── PDF Resume Generator ─────────────────────────────────────
 
 @app.get("/api/resume/download")
 async def download_resume():
-    """Generate a professional PDF resume from portfolio data."""
+    """Generate a professional ATS-optimized PDF resume."""
+    from io import BytesIO
+    from reportlab.lib.pagesizes import LETTER
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, HRFlowable
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.lib.enums import TA_CENTER, TA_LEFT
+    from reportlab.lib import colors
     from fastapi.responses import Response
-    
+
     data = load_data()
+    exp_list = data.get("experience", [])
     projects = data.get("projects", [])
 
-    # Build clean text-based resume
-    lines = []
-    lines.append("YASWANTH SAI LALAM")
-    lines.append("="*50)
-    lines.append("Email: yaswanthsailalam02@gmail.com")
-    lines.append("LinkedIn: linkedin.com/in/yaswanth-sai-lalam-4969b236a")
-    lines.append("GitHub: github.com/yaswanthsailalam")
-    lines.append("")
-    lines.append("PROFESSIONAL SUMMARY")
-    lines.append("-"*50)
-    lines.append("Operations and Data Analytics professional with experience in healthcare operations,")
-    lines.append("MIS reporting, workflow optimization, and process automation. Skilled in Excel VBA,")
-    lines.append("Python, and data pipeline engineering. Currently pursuing MBA in Operations & Data")
-    lines.append("Science Management from NMIMS.")
-    lines.append("")
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=LETTER, rightMargin=50, leftMargin=50, topMargin=50, bottomMargin=50)
+    styles = getSampleStyleSheet()
     
-    lines.append("EXPERIENCE")
-    lines.append("-"*50)
-    lines.append("")
-    lines.append("MIS Executive | Wellness Hospital")
-    lines.append("February 2026 - Present")
-    lines.append("  - Prepared daily, weekly, and monthly MIS reports for management")
-    lines.append("  - Monitored KPIs including occupancy rates, revenue, patient footfall")
-    lines.append("  - Automated reporting processes using Excel and BI tools")
-    lines.append("  - Coordinated with clinical, admin, HR, Finance teams to validate data")
-    lines.append("")
-    lines.append("Healthcare Operations Executive | ekincare")
-    lines.append("January 2025 - February 2026")
-    lines.append("  - Managed appointment coordination and healthcare service delivery")
-    lines.append("  - Handled insurance operations including claims adjudication")
-    lines.append("  - Improved backend efficiency through report generation and TAT monitoring")
-    lines.append("")
-    lines.append("Analyst | Teleperformance")
-    lines.append("September 2023 - November 2024")
-    lines.append("  - Validated large-scale datasets for AI model training")
-    lines.append("  - Developed SOPs for data verification processes")
-    lines.append("  - Generated weekly/monthly performance reports with insights")
-    lines.append("")
+    # Custom Styles
+    name_style = ParagraphStyle('Name', parent=styles['Heading1'], alignment=TA_CENTER, fontSize=18, spaceAfter=2)
+    subhead_style = ParagraphStyle('Subhead', parent=styles['Normal'], alignment=TA_CENTER, fontSize=12, spaceAfter=2)
+    contact_style = ParagraphStyle('Contact', parent=styles['Normal'], alignment=TA_CENTER, fontSize=10, spaceAfter=10)
+    section_title = ParagraphStyle('Section', parent=styles['Heading2'], fontSize=12, textColor=colors.black, spaceBefore=10, spaceAfter=2, fontName='Helvetica-Bold')
+    body_style = ParagraphStyle('Body', parent=styles['Normal'], fontSize=10, leading=12)
+    job_title = ParagraphStyle('JobTitle', parent=styles['Normal'], fontSize=11, fontName='Helvetica-Bold')
+    job_sub = ParagraphStyle('JobSub', parent=styles['Normal'], fontSize=10, fontName='Helvetica-Oblique', textColor=colors.grey)
+
+    content = []
     
-    lines.append("EDUCATION")
-    lines.append("-"*50)
-    lines.append("MBA - Operations & Data Science Management | NMIMS (July 2025 - Present)")
-    lines.append("BTech - Computer Science Engineering | ANITS (July 2018 - May 2022)")
-    lines.append("")
+    # Header
+    content.append(Paragraph("<b>LALAM YASWANTH SAI</b>", name_style))
+    content.append(Paragraph("Operations Analyst", subhead_style))
     
-    lines.append("KEY PROJECTS")
-    lines.append("-"*50)
-    for proj in projects:
-        lines.append(f"")
-        lines.append(f"{proj.get('title', 'Untitled')}")
-        lines.append(f"  Impact: {proj.get('metric', 'N/A')}")
-        lines.append(f"  Tech: {', '.join(proj.get('tags', []))}")
-        desc = proj.get('description', '')
-        if desc:
-            # Wrap description
-            words = desc.split()
-            line = "  "
-            for w in words:
-                if len(line) + len(w) > 80:
-                    lines.append(line)
-                    line = "  " + w
-                else:
-                    line += " " + w
-            if line.strip():
-                lines.append(line)
+    # Contact Info
+    email = "yaswanthsailalam02@gmail.com"
+    phone = "+91 9121511764"
+    linkedin_url = "https://www.linkedin.com/in/yaswanth-sai-lalam-4969b236a"
     
-    lines.append("")
-    lines.append("SKILLS")
-    lines.append("-"*50)
-    lines.append("Excel VBA | Python | Data Analytics | Process Automation | MIS Reporting")
-    lines.append("SQL | Power BI | Data Pipeline Engineering | Healthcare Operations")
-    lines.append("")
-    lines.append("CERTIFICATIONS")
-    lines.append("-"*50)
-    lines.append("Data Analysis with Python - ExcelR Academy")
+    contact_html = f"Hyderabad, India | {phone} | {email} | <a href='{linkedin_url}' color='blue'>LinkedIn</a>"
+    content.append(Paragraph(contact_html, contact_style))
     
-    resume_text = "\n".join(lines)
+    # Summary
+    content.append(Paragraph("SUMMARY", section_title))
+    content.append(HRFlowable(width="100%", thickness=1, color=colors.black, spaceAfter=5))
+    summary_text = "Results-driven Operations Associate with experience specializing in backend operations, MIS reporting, and process automation within complex environments. Proven track record in streamlining operational workflows, data reconciliation, and achieving high processing speed through technical automation tools including Excel VBA and Python."
+    content.append(Paragraph(summary_text, body_style))
+    
+    # Technical Skills
+    content.append(Paragraph("TECHNICAL SKILLS", section_title))
+    content.append(HRFlowable(width="100%", thickness=1, color=colors.black, spaceAfter=5))
+    
+    skills = [
+        ("Automation & Data", "Excel VBA, Python, Data Pipeline Engineering, RPA, Web Scraping"),
+        ("Healthcare Operations", "HIS/EMR Systems, Claims Adjudication, TAT Monitoring, Insurance Ops"),
+        ("Analytics & MIS", "SQL, Power BI, Advanced Excel, MIS Reporting, Trend Analysis")
+    ]
+    
+    for category, items in skills:
+        content.append(Paragraph(f"<b>{category}:</b> {items}", body_style))
+    content.append(Spacer(1, 5))
+    
+    # Experience
+    content.append(Paragraph("EXPERIENCE", section_title))
+    content.append(HRFlowable(width="100%", thickness=1, color=colors.black, spaceAfter=5))
+    
+    for exp in exp_list:
+        content.append(Paragraph(f"<b>{exp['company']}</b>", job_title))
+        content.append(Paragraph(f"{exp['title']} | {exp['period']}", job_sub))
+        
+        # Bullet points
+        for ach in exp.get('achievements', []):
+            content.append(Paragraph(f"• {ach}", body_style))
+        content.append(Spacer(1, 10))
+        
+    # Education
+    content.append(Paragraph("EDUCATION", section_title))
+    content.append(HRFlowable(width="100%", thickness=1, color=colors.black, spaceAfter=5))
+    content.append(Paragraph("<b>MBA - Operations & Data Science Management</b> | NMIMS (Pursuing)", body_style))
+    content.append(Paragraph("<b>BTech - Computer Science Engineering</b> | ANITS (July 2018 - May 2022)", body_style))
+    
+    # Projects (Dynamic)
+    if projects:
+        content.append(Paragraph("KEY PROJECTS", section_title))
+        content.append(HRFlowable(width="100%", thickness=1, color=colors.black, spaceAfter=5))
+        for proj in projects[:3]: # Top 3
+            content.append(Paragraph(f"<b>{proj['title']}</b>", job_title))
+            content.append(Paragraph(f"Impact: {proj['metric']}", body_style))
+            content.append(Paragraph(f"Built with {', '.join(proj['tags'])}", body_style))
+            content.append(Spacer(1, 5))
+
+    # Build PDF
+    doc.build(content)
+    pdf_bytes = buffer.getvalue()
+    buffer.close()
     
     return Response(
-        content=resume_text.encode("utf-8"),
-        media_type="text/plain",
+        content=pdf_bytes,
+        media_type="application/pdf",
         headers={
-            "Content-Disposition": "attachment; filename=Yaswanth_Sai_Lalam_Resume.txt"
+            "Content-Disposition": "attachment; filename=Lalam_Yaswanth_Sai_Resume.pdf"
         }
     )
 

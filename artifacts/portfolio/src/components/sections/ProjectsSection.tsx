@@ -12,6 +12,7 @@ import {
   ArrowRight, ArrowLeft, Loader2
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { useAutoTrack, useAnalytics } from "@/hooks/useAnalytics";
 
 /* ─── Types ─────────────────────────────────────────────── */
 interface WorkflowStep {
@@ -237,9 +238,11 @@ function ProjectDetailView({ project }: { project: Project }) {
 
 /* ─── Main Section ───────────────────────────────────────── */
 export default function ProjectsSection() {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  useAutoTrack("Work");
+  const { track } = useAnalytics();
+  const [selectedProject, setSelectedProject] = useState<any | null>(null);
 
-  const { data: projects = [], isLoading } = useQuery<Project[]>({
+  const { data: projects = [], isLoading } = useQuery<any[]>({
     queryKey: ["projects"],
     queryFn: async () => {
       const res = await fetch("http://127.0.0.1:5000/api/projects");
@@ -333,7 +336,10 @@ export default function ProjectsSection() {
                         <Button
                           variant="outline"
                           className="flex-1"
-                          onClick={() => setSelectedProject(project)}
+                          onClick={() => {
+                            setSelectedProject(project);
+                            track("project_view", project.id || project.title);
+                          }}
                         >
                           <ExternalLink className="w-4 h-4 mr-2" />
                           View Case Study

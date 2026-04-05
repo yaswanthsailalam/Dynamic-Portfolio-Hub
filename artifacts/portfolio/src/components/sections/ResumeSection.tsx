@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Download, Briefcase, GraduationCap, Award } from "lucide-react";
+import { useAutoTrack, useAnalytics } from "@/hooks/useAnalytics";
 
 const experience = [
   {
     title: "MIS Executive",
-    company: "Wellness Hospital",
+    company: "Prodify Innovatives",
     period: "February 2026 - Present",
     description:
       "Managing comprehensive hospital data, tracking operational KPIs, and delivering analytical insights through MIS reporting to support Finance and process improvement.",
@@ -72,6 +73,8 @@ const certifications = [
 ];
 
 export default function ResumeSection() {
+  useAutoTrack("Resume");
+  const { track } = useAnalytics();
   return (
     <div className="max-w-4xl mx-auto py-12">
       <motion.div
@@ -88,6 +91,7 @@ export default function ResumeSection() {
         <a
           href="http://127.0.0.1:5000/api/resume/download"
           download
+          onClick={() => track("resume_download", "resume_section")}
           className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm text-white transition-all duration-200 hover:brightness-110 hover:shadow-lg"
           style={{
             background: "linear-gradient(135deg, #00C6FF 0%, #0072FF 100%)",

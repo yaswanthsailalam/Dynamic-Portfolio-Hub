@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, MapPin, Linkedin, Send, Download, MessageCircle, Loader2, CheckCircle2 } from "lucide-react";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 const WHATSAPP_NUMBER = "919121511764";
 
@@ -55,6 +56,16 @@ export default function ContactSection() {
   const { toast } = useToast();
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  const { track } = useAnalytics();
+  const [formOpened, setFormOpened] = useState(false);
+
+  const handleFocus = () => {
+    if (!formOpened) {
+      track("contact_form_open", "contact_section");
+      setFormOpened(true);
+    }
+  };
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
@@ -233,14 +244,14 @@ export default function ContactSection() {
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-muted-foreground">Your Name</label>
-                  <Input {...form.register("name")} placeholder="John Doe" />
+                  <Input {...form.register("name")} placeholder="John Doe" onFocus={handleFocus} />
                   {form.formState.errors.name && (
                     <p className="text-sm text-destructive">{form.formState.errors.name.message}</p>
                   )}
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-muted-foreground">Email Address</label>
-                  <Input {...form.register("email")} placeholder="john@example.com" />
+                  <Input {...form.register("email")} placeholder="john@example.com" onFocus={handleFocus} />
                   {form.formState.errors.email && (
                     <p className="text-sm text-destructive">{form.formState.errors.email.message}</p>
                   )}
@@ -249,7 +260,7 @@ export default function ContactSection() {
 
               <div className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground">Subject</label>
-                <Input {...form.register("subject")} placeholder="Project Inquiry" />
+                <Input {...form.register("subject")} placeholder="Project Inquiry" onFocus={handleFocus} />
                 {form.formState.errors.subject && (
                   <p className="text-sm text-destructive">{form.formState.errors.subject.message}</p>
                 )}
@@ -261,6 +272,7 @@ export default function ContactSection() {
                   {...form.register("message")}
                   placeholder="How can I help you?"
                   className="min-h-[150px]"
+                  onFocus={handleFocus}
                 />
                 {form.formState.errors.message && (
                   <p className="text-sm text-destructive">{form.formState.errors.message.message}</p>

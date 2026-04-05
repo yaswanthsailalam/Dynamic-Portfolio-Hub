@@ -2,12 +2,15 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Mail } from "lucide-react";
 import GitHubActivity from "@/components/widgets/GitHubActivity";
+import { useAutoTrack, useAnalytics } from "@/hooks/useAnalytics";
 
 interface HomeSectionProps {
   navigateTo: (section: string) => void;
 }
 
 export default function HomeSection({ navigateTo }: HomeSectionProps) {
+  useAutoTrack("Home");
+  const { track } = useAnalytics();
   return (
     <>
     <div className="relative flex flex-col items-center justify-center min-h-[80vh] w-full rounded-3xl overflow-hidden glass-panel border-0">
@@ -81,7 +84,7 @@ export default function HomeSection({ navigateTo }: HomeSectionProps) {
       transition={{ duration: 0.6, delay: 0.5 }}
       className="mt-12 w-full max-w-2xl mx-auto"
     >
-      <div className="glass-panel rounded-2xl border border-border/40 p-6">
+      <div className="glass-panel rounded-2xl border border-border/40 p-6" onClick={() => track("github_click", "home_feed")}>
         <GitHubActivity />
       </div>
     </motion.div>

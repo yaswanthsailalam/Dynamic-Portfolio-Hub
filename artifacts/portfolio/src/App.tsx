@@ -15,6 +15,7 @@ import InsightsSection from "./components/sections/InsightsSection";
 import ContactSection from "./components/sections/ContactSection";
 import ResumeSection from "./components/sections/ResumeSection";
 import AdminSection from "./components/sections/AdminSection";
+import { useAnalytics } from "./hooks/useAnalytics";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,11 @@ const navItems = ["Home", "About", "Skills", "Work", "Insights", "Contact"];
 function PortfolioLayout() {
   const [activeSection, setActiveSection] = useState("Home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { track } = useAnalytics();
+
+  useEffect(() => {
+    track("page_view", "initial_load");
+  }, [track]);
 
   useEffect(() => {
     const mainContent = document.getElementById("main-scroll-area");
@@ -136,6 +142,7 @@ function PortfolioLayout() {
                 href="https://www.linkedin.com/in/yaswanth-sai-lalam-4969b236a"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => track("linkedin_click", "header_social")}
                 className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-200"
                 title="LinkedIn"
               >
