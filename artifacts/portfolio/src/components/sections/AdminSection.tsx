@@ -54,7 +54,7 @@ export default function AdminSection() {
   const [loginPending, setLoginPending] = useState(false);
   const [activeTab, setActiveTab] = useState<"posts" | "leads" | "analytics">("analytics");
 
-  const getHeaders = () => {
+  const getHeaders = (): Record<string, string> => {
     const token = localStorage.getItem("adminToken");
     return token ? { Authorization: `Bearer ${token}` } : {};
   };

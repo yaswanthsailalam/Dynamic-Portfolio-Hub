@@ -320,7 +320,7 @@ export default function ProjectsSection() {
                       <CardHeader>
                         <CardTitle className="group-hover:text-primary transition-colors">{project.title}</CardTitle>
                         <div className="flex flex-wrap gap-2 mt-3">
-                          {project.tags.map((tag) => (
+                          {project.tags.map((tag: string) => (
                             <Badge key={tag} variant="secondary" className="bg-secondary/50 text-xs font-medium">
                               {tag}
                             </Badge>
