@@ -1,0 +1,16 @@
+[build]
+  # The command to build the project
+  command = "pnpm run build"
+  
+  # The directory to publish
+  publish = "artifacts/portfolio/dist/public"
+
+[build.environment]
+  # Ensure pnpm is used
+  PNPM_FLAGS = "--frozen-lockfile"
+
+# Redirects for Single Page Application (SPA) routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
