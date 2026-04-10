@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+@theme {
+  --background: 230 50% 4%;
+  --foreground: 210 40% 98%;
+  --card: 230 50% 6%;
+  --card-foreground: 210 40% 98%;
+  --primary: 190 100% 50%;
+  --primary-foreground: 230 50% 4%;
+  --secondary: 230 50% 12%;
+  --secondary-foreground: 210 40% 98%;
+  --accent: 260 90% 65%;
+  --accent-foreground: 210 40% 98%;
+  --muted: 230 50% 10%;
+  --muted-foreground: 215 30% 65%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 230 50% 12%;
+  --input: 230 50% 12%;
+  --ring: 190 100% 50%;
+  --radius: 1.25rem;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  line-height: 1.6;
+  overflow: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', 'Montserrat', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background)); 
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted)); 
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--border)); 
+}
+
+/* Utility Classes */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.glass-panel {
+  background: rgba(8, 12, 24, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.shimmer-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-card::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.03) 30%,
+    rgba(255, 255, 255, 0.07) 50%,
+    rgba(255, 255, 255, 0.03) 70%,
+    transparent 100%
+  );
+  transform: rotate(25deg);
+  animation: shimmer 6s infinite linear;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% { transform: translate(-30%, -30%) rotate(25deg); }
+  100% { transform: translate(30%, 30%) rotate(25deg); }
+}
+
+/* Tailwind CSS Customization */
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  
+  body {
+    @apply overflow-hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight;
+  }
+}

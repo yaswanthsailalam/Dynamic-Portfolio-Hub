@@ -1,0 +1,197 @@
+Update the portfolio with the following enhancements in the About section and Contact section.
+
+--------------------------------------------------
+
+PART 1 — ABOUT SECTION PROFILE IMAGE HOVER EFFECT
+
+Enhance the About section profile image with an interactive hover flip effect.
+
+Requirement:
+
+When a user hovers over the profile picture:
+• The image should rotate 180 degrees (flip animation).
+• The back side should display the text: "Yaswanth Sai".
+• The flip should occur inside the same circular frame.
+
+Implementation Details:
+
+1. Replace the current profile image HTML with the following structure:
+
+<div class="profile-card">
+  <div class="profile-card-inner">
+
+    <div class="profile-card-front">
+      <img src="assets/images/profile-yaswanth.jpg" alt="Yaswanth Sai">
+    </div>
+
+    <div class="profile-card-back">
+      <h3>Yaswanth Sai</h3>
+    </div>
+
+  </div>
+</div>
+
+2. Add the following CSS for the flip animation:
+
+.profile-card {
+  width: 260px;
+  height: 260px;
+  perspective: 1000px;
+}
+
+.profile-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.profile-card:hover .profile-card-inner {
+  transform: rotateY(180deg);
+}
+
+.profile-card-front,
+.profile-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  backface-visibility: hidden;
+  overflow: hidden;
+}
+
+.profile-card-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-card-back {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotateY(180deg);
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+
+3. Ensure the element remains responsive and aligned within the About section.
+
+4. Do not modify other layout components.
+Only apply this effect to the profile image container.
+
+--------------------------------------------------
+
+PART 2 — CONTACT SECTION ENHANCEMENTS
+
+Update the Contact section to support dynamic location detection and WhatsApp communication.
+
+Current layout must remain unchanged visually.
+
+--------------------------------------------------
+
+Dynamic Location Detection
+
+Replace the static location text with a dynamically detected location.
+
+The system should detect the user's current location using the browser geolocation API and display:
+
+City, Country
+
+Example:
+
+Location
+Hyderabad, India
+
+Implementation requirements:
+
+• When the page loads, request location permission from the user.
+• If permission is granted, fetch latitude and longitude.
+• Convert coordinates into a readable city and country using reverse geocoding.
+• Display the location dynamically in the contact information area.
+• If the location cannot be detected, display "Location unavailable".
+
+--------------------------------------------------
+
+Add WhatsApp Contact Information
+
+Below the location field, add a new contact item:
+
+WhatsApp
+Chat on WhatsApp
+
+Use the phone number:
+
+9121511764
+
+When users click the WhatsApp link, it should open a WhatsApp chat window.
+
+Use the international format for the number.
+
+The link must open in a new tab.
+
+--------------------------------------------------
+
+Contact Form WhatsApp Integration
+
+Modify the existing "Send a Message" form so that when a user submits the form:
+
+• The form does not submit to a server.
+• Instead, the form data is converted into a WhatsApp message.
+
+The message must include:
+
+Name
+Email
+Subject
+Message
+
+When the form is submitted:
+
+1. Prevent default form submission.
+2. Collect all form field values.
+3. Construct a WhatsApp message containing all the submitted information.
+4. Open WhatsApp in a new tab with the message prefilled.
+5. The user can then send the message directly.
+
+--------------------------------------------------
+
+Example WhatsApp Message Format
+
+New Portfolio Inquiry
+
+Name: John Doe
+Email: john@email.com
+Subject: Project Inquiry
+Message: Hello, I saw your portfolio and would like to discuss a project.
+
+--------------------------------------------------
+
+Final Contact Section Should Contain
+
+Email
+s77114925@gmail.com
+
+Location
+Automatically detected user location
+
+WhatsApp
+Chat on WhatsApp
+
+Send a Message Form
+(Name, Email, Subject, Message)
+
+Form submission should open WhatsApp with the message details.
+
+--------------------------------------------------
+
+Maintain the following:
+
+• Existing design theme
+• Dark UI styling
+• Responsive layout
+• Current contact section layout

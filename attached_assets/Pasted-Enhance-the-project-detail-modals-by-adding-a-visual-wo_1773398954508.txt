@@ -1,0 +1,128 @@
+Enhance the project detail modals by adding a visual workflow / timeline section for every project.
+
+Inside each project modal, add a new section called:
+
+Workflow Overview
+
+This section should visually represent the project process as a horizontal workflow diagram.
+
+Each step should appear as a card connected with arrows.
+
+Use the following structure:
+
+Step → Step → Step → Step
+
+The steps should have:
+• Icon
+• Title
+• Short description
+
+Ensure the design matches the dark theme and looks modern.
+
+--------------------------------------------------
+
+Add the following workflows for each project.
+
+--------------------------------------------------
+
+Project 1
+Vendor Portal Data Extraction Automation
+
+Workflow Steps:
+
+Step 1
+Data Source
+Vendor management portal containing operational data.
+
+Step 2
+Automated Extraction
+Python scripts collect and extract the required records.
+
+Step 3
+Data Processing
+Extracted data is structured and validated for reporting.
+
+Step 4
+Reporting Output
+Processed datasets are used for analysis and operational reports.
+
+--------------------------------------------------
+
+Project 2
+Excel Workflow Automation for Transfer Processing
+
+Workflow Steps:
+
+Step 1
+Input Records
+Operational transfer records entered into Excel.
+
+Step 2
+Validation Logic
+VBA logic checks data integrity and validates records.
+
+Step 3
+Automation Workflow
+Automated macros organize and process the data.
+
+Step 4
+Processed Output
+Validated records prepared for reporting and operations.
+
+--------------------------------------------------
+
+Project 3
+Operational Data Reporting Automation
+
+Workflow Steps:
+
+Step 1
+Data Collection
+Operational datasets gathered from multiple sources.
+
+Step 2
+Data Cleaning
+Data validation and formatting for accuracy.
+
+Step 3
+MIS Reporting
+Automated reporting templates generate structured reports.
+
+Step 4
+Operational Insights
+Reports support monitoring of KPIs and operational performance.
+
+--------------------------------------------------
+
+Project 4
+Automated Data Processing Scripts
+
+Workflow Steps:
+
+Step 1
+Raw Dataset
+Large operational datasets received for processing.
+
+Step 2
+Script Execution
+Python scripts process and transform the data.
+
+Step 3
+Validation Checks
+Automated validation ensures accuracy.
+
+Step 4
+Structured Output
+Clean datasets prepared for analysis and reporting.
+
+--------------------------------------------------
+
+Design Requirements:
+
+• Display workflow steps horizontally with arrows connecting them
+• Each step should appear as a small card with icon and text
+• Ensure it is responsive for mobile
+• Maintain the same styling used across the portfolio
+• Place this section between "Key Features" and "Impact"
+
+Do not change the existing project card layout.

@@ -1,0 +1,104 @@
+Update the entire "Featured Projects" section of the portfolio.
+
+Remove the current template projects such as:
+- AI Customer Support Classifier
+- Interactive Sales Dashboard
+- Excel Financial Reporting Suite
+- Python E-Commerce Scraper Pipeline
+
+Replace them with projects based on real operational automation and data work. 
+Do NOT include any vendor names, company names, or confidential client information.
+
+Keep the same card layout, styling, project tags, and impact badges.
+
+Update the section title and description to:
+
+Section Title:
+Operational Data & Automation Work
+
+Section Subtitle:
+Practical automation and data workflow solutions built to improve operational efficiency and reporting.
+
+Create the following four project cards:
+
+--------------------------------------------------
+
+Project 1
+
+Title:
+Vendor Portal Data Extraction Automation
+
+Tags:
+Python
+Data Extraction
+Automation
+
+Description:
+Developed an automated workflow to extract operational data from a vendor management portal and structure it for reporting and analysis. The automation reduced manual data collection effort and improved data availability for operational reporting.
+
+Impact Badge:
+Automated data collection workflow
+
+--------------------------------------------------
+
+Project 2
+
+Title:
+Excel Workflow Automation for Transfer Processing
+
+Tags:
+Excel
+VBA
+Process Automation
+
+Description:
+Designed an Excel-based automation workflow to streamline internal transfer processing tasks. Implemented VBA logic to validate records, organize data, and reduce repetitive manual operations.
+
+Impact Badge:
+Reduced manual processing effort
+
+--------------------------------------------------
+
+Project 3
+
+Title:
+Operational Data Reporting Automation
+
+Tags:
+Excel
+Data Analysis
+MIS Reporting
+
+Description:
+Built structured reporting workflows for operational datasets, enabling faster preparation of MIS reports and improving visibility into key operational metrics.
+
+Impact Badge:
+Improved reporting efficiency
+
+--------------------------------------------------
+
+Project 4
+
+Title:
+Automated Data Processing Scripts
+
+Tags:
+Python
+Data Processing
+Automation
+
+Description:
+Developed Python scripts to process large operational datasets, perform validation checks, and generate structured outputs used for internal reporting and analytics.
+
+Impact Badge:
+Handled high-volume operational data
+
+--------------------------------------------------
+
+Important Requirements:
+
+• Do not include any company or vendor names
+• Maintain the existing project card UI design
+• Keep the current grid layout
+• Preserve the dark theme styling
+• Ensure the section remains responsive

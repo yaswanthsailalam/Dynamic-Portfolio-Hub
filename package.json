@@ -1,0 +1,37 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "Dynamic Portfolio Hub - React + Tailwind Frontend with Python Backend",
+  "workspaces": [
+    "artifacts/*",
+    "lib/*",
+    "scripts"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev:frontend": "npm run dev --workspace=@workspace/portfolio",
+    "dev:backend": "npm run dev --workspace=@workspace/api-server-python",
+    "dev:mockup": "npm run dev --workspace=@workspace/mockup-sandbox",
+    "build": "npm run typecheck && npm run build --workspaces --if-present",
+    "typecheck:libs": "tsc --build",
+    "typecheck": "npm run typecheck:libs && npm run typecheck --workspaces --if-present",
+    "start": "npm run build && npm run start:backend",
+    "start:backend": "npm run start --workspace=@workspace/api-server-python"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "private": true,
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.2",
+    "lightningcss": "^1.32.0",
+    "prettier": "^3.8.1",
+    "typescript": "~5.9.2",
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.0"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-win32-x64-msvc": "^4.60.0"
+  }
+}

@@ -1,0 +1,4095 @@
+{
+  "projects": [
+    {
+      "id": "proj-1",
+      "title": "Enterprise Sales & Operations Reconciliation System",
+      "description": "Designed a fully automated, one-click VBA application to consolidate internal operational records with daily sales transaction data. The solution replaces a highly manual, error-prone daily task with a robust, scalable macro that cleans, filters, and matches multiple data sources in seconds.",
+      "tags": [
+        "Excel VBA",
+        "Data Pipeline",
+        "Process Automation"
+      ],
+      "linkedinTagsString": "#ExcelVBA #ProcessAutomation #DataPipeline #RPA #Automation #VBA #DigitalTransformation #ProcessImprovement #OpenToWork",
+      "image": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80",
+      "workflowDiagram": "/vba_simple_workflow.png",
+      "metric": "95%+ Processing Time Reduction",
+      "features": [
+        "Automated ingestion from shared network folders without manual intervention",
+        "Dynamically cleans datasets and filters non-essential operational parameters",
+        "Robust identity matching logic mapped against validated source points",
+        "One-click generation of standardized, audit-ready financial and operational reports"
+      ],
+      "impact": "Reduced processing time by over 95%, completely eliminating manual copy-paste errors and filtering inconsistencies. This optimization freed the operations team to focus on higher-value data analysis.",
+      "challenges": [
+        "Developing extremely fast dictionary-based cross-referencing to match operational IDs against dynamic locations without relying on slow VLOOKUP functions",
+        "Handling heavily inconsistent raw data structures, requiring dynamic identification of columns and blank rows across varying monthly formats",
+        "Ensuring application stability and execution efficiency while directly manipulating thousands of spreadsheet rows within memory limits"
+      ],
+      "performanceMetrics": [
+        "Processing Rate: ~16,000 rows reconciled in 10-15 seconds",
+        "Lead Time Optimization: Reduced daily manual parsing from 60 mins to zero"
+      ],
+      "workflow": [
+        {
+          "icon": "HardDrive",
+          "title": "Data Ingestion",
+          "description": "Automatically reads and imports multiple source files from shared directories."
+        },
+        {
+          "icon": "Filter",
+          "title": "Intelligent Cleaning",
+          "description": "Strips out empty records and dynamically filters non-essential data columns."
+        },
+        {
+          "icon": "Zap",
+          "title": "Data Reconciliation",
+          "description": "Processes structured matching logic to reliably cross-reference operational IDs with corresponding sales."
+        },
+        {
+          "icon": "FileCheck",
+          "title": "Final Reporting",
+          "description": "Outputs a clean, standardized, and audit-ready dataset for stakeholders."
+        }
+      ],
+      "codeSnippets": [
+        {
+          "filename": "Reconciliation_Engine.vba",
+          "language": "vba",
+          "code": "Sub RunReconciliationEngine()\n    ' Initialize Dictionary for fast in-memory matching\n    Dim dictSales As Object\n    Set dictSales = CreateObject(\"Scripting.Dictionary\")\n    \n    ' Load raw data into variant arrays to bypass slow sheet interactions\n    Dim rawData As Variant\n    rawData = Sheets(\"RawSales\").Range(\"A1:F16000\").Value\n    \n    ' Build index\n    Dim i As Long\n    For i = 2 To UBound(rawData, 1)\n        If Not dictSales.exists(rawData(i, 1)) Then\n            dictSales.Add rawData(i, 1), rawData(i, 6) ' Map ID to Revenue\n        End If\n    Next i\n    \n    ' Perform matching against operational records in milliseconds\n    Dim opData As Variant\n    opData = Sheets(\"Operations\").Range(\"A1:C5000\").Value\n    \n    For i = 2 To UBound(opData, 1)\n        If dictSales.exists(opData(i, 1)) Then\n            opData(i, 3) = dictSales(opData(i, 1)) ' Inject matched data\n        Else\n            opData(i, 3) = \"Unmatched\"\n        End If\n    Next i\n    \n    ' Write back in one batch operation\n    Sheets(\"Operations\").Range(\"A1:C5000\").Value = opData\nEnd Sub"
+        }
+      ]
+    },
+    {
+      "id": "proj-2",
+      "title": "Automated Medical Diagnostic Data & Payment Audits",
+      "description": "I built a completely automated, end-to-end Python desktop application that leverages custom scraping logic and API integration to programmatically extract data where no native download option existed\u2014transforming unstructured web information into structured, automated reports and audits.",
+      "tags": [
+        "Python",
+        "Selenium",
+        "Pandas",
+        "Data Automation",
+        "MIS Reporting"
+      ],
+      "image": "/projects/diagnostic-extractor/success.png",
+      "gallery": [
+        "/projects/diagnostic-extractor/problem.png",
+        "/projects/diagnostic-extractor/automation.png",
+        "/projects/diagnostic-extractor/process.png",
+        "/projects/diagnostic-extractor/audit.png",
+        "/projects/diagnostic-extractor/success.png"
+      ],
+      "metric": "97% Workflow Time Reduction",
+      "features": [
+        "Multi-portal Extraction: Support for all major diagnostic and branch portal networks",
+        "Headless Authentication: Automated ASP.NET session capture engine",
+        "Direct API Querying: High-speed programmatic retrieval from restricted portals",
+        "Structured Audit Generation: MoM reconciliation of fulfillment vs invoicing",
+        "Standalone Deployment: Distributed as .exe for administrative use"
+      ],
+      "impact": "Reduced daily extraction time from 3.5 hours to < 5 minutes, completely eliminating manual transcription errors and accelerating vendor payment cycles via auto-generated audits.",
+      "challenges": [
+        "Developing custom cookie-handling middleware for restricted diagnostic portals",
+        "Implementing robust 4-stage validation rules for Blood Culture and Sensitivity tests",
+        "Ensuring data integrity across heterogenous service statuses from different vendors"
+      ],
+      "performanceMetrics": [
+        "Workflow Efficiency: 97% reduction (3.5h down to <5m)",
+        "Audit Accuracy: 100% data integrity with zero transcription errors",
+        "Extracted Coverage: Comprehensive support for leading diagnostics vendor networks"
+      ],
+      "workflow": [
+        {
+          "icon": "Database",
+          "title": "Data Extraction",
+          "description": "Headless automation pulls raw test records from primary diagnostics portals."
+        },
+        {
+          "icon": "Layers",
+          "title": "Normalization",
+          "description": "Deduplicates and maps heterogenous service statuses into a unified format."
+        },
+        {
+          "icon": "PieChart",
+          "title": "Daily Reporting",
+          "description": "Aggregates transactions into a standardized daily Excel MIS dashboard."
+        },
+        {
+          "icon": "ShieldCheck",
+          "title": "Audit Generation",
+          "description": "Compares fulfillment vs invoices to automate Month-on-Month vendor audits."
+        }
+      ],
+      "codeSnippets": [
+        {
+          "filename": "session_capture.py",
+          "language": "python",
+          "code": "from playwright.sync_api import sync_playwright\n\ndef get_secure_session(url, credentials):\n    with sync_playwright() as p:\n        browser = p.chromium.launch(headless=True)\n        page = browser.new_page()\n        page.goto(url)\n        page.fill('#username', credentials['user'])\n        page.fill('#password', credentials['pass'])\n        page.click('#login-btn')\n        cookies = page.context.cookies()\n        return {c['name']: c['value'] for c in cookies if 'ASP' in c['name']}"
+        }
+      ]
+    }
+  ],
+  "posts": [
+    {
+      "id": "e3ee7156-3375-4a93-abb6-4d46177aaf6e",
+      "project_id": "proj-1",
+      "content": "Just delivered a project that achieved 95%+ Processing Time Reduction with the Enterprise Sales & Operations Reconciliation System! \ud83d\ude80\n\nBefore this, the baseline process was a massive operational bottleneck.\n\nInstead of relying on slow, error-prone manual work, I engineered a robust solution using Excel VBA, Data Pipeline, Process Automation.\n\nDesigned a fully automated, one-click VBA application to consolidate internal operational records with daily sales transaction data. The solution replaces a highly manual, error-prone daily task with a robust, scalable macro that cleans, filters, and matches multiple data sources in seconds.\n\n\u2699\ufe0f How it works under the hood:\n\u26a1 Data Ingestion \u2192 Automatically reads and imports multiple source files from shared directories\n\u26a1 Intelligent Cleaning \u2192 Strips out empty records and dynamically filters non-essential data columns\n\u26a1 Data Reconciliation \u2192 Processes structured matching logic to reliably cross-reference operational IDs with corresponding sales\n\u26a1 Final Reporting \u2192 Outputs a clean, standardized, and audit-ready dataset for stakeholders\n\n\ud83d\udcc8 The Impact:\nReduced processing time by over 95%, completely eliminating manual copy-paste errors and filtering inconsistencies. This optimization freed the operations team to focus on higher-value data analysis.\n\n\u2705 Processed robust datasets of ~16,000 rows across all cleaning, validating, and matching stages in just 10-15 seconds\n\u2705 Reduced the baseline manual file configuration and data parsing time from 30-60 minutes down to zero\n\n\ud83d\udca1 Key Takeaway: One of the biggest hurdles was developing extremely fast dictionary-based cross-referencing to match operational ids against dynamic locations without relying on slow vlookup functions. Overcoming this taught me how crucial efficient data structures are when scaling operations.\n\nWhat\u2019s the biggest manual bottleneck you\u2019ve faced in your daily workflows? Drop it in the comments \ud83d\udc47\n\n#ExcelVBA #ProcessAutomation #DataPipeline #RPA #Automation #VBA #DigitalTransformation #ProcessImprovement #OpenToWork",
+      "image": "/vba_simple_workflow.png",
+      "status": "published"
+    },
+    {
+      "id": "a9ba5283-956d-4952-8cd6-05608162b570",
+      "project_id": "proj-2",
+      "content": "Just delivered a project that achieved 97% Workflow Time Reduction with the Automated Medical Diagnostic Data & Payment Audits! \ud83d\ude80\n\nBefore this, the baseline process was a massive operational bottleneck.\n\nInstead of relying on slow, error-prone manual work, I engineered a robust solution using Python, Selenium, Pandas, Data Automation, MIS Reporting.\n\nI built a completely automated, end-to-end Python desktop application that leverages custom scraping logic and API integration to programmatically extract data where no native download option existed\u2014transforming unstructured web information into structured, automated reports and audits.\n\n\u2699\ufe0f How it works under the hood:\n\u26a1 Data Extraction \u2192 Headless automation pulls raw test records from primary diagnostics portals\n\u26a1 Normalization \u2192 Deduplicates and maps heterogenous service statuses into a unified format\n\u26a1 Daily Reporting \u2192 Aggregates transactions into a standardized daily Excel MIS dashboard\n\u26a1 Audit Generation \u2192 Compares fulfillment vs invoices to automate Month-on-Month vendor audits\n\n\ud83d\udcc8 The Impact:\nReduced daily extraction time from 3.5 hours to < 5 minutes, completely eliminating manual transcription errors and accelerating vendor payment cycles via auto-generated audits.\n\n\u2705 Workflow Efficiency: 97% reduction (3.5h down to <5m)\n\u2705 Audit Accuracy: 100% data integrity with zero transcription errors\n\u2705 Extracted Coverage: Comprehensive support for leading diagnostics vendor networks\n\n\ud83d\udca1 Key Takeaway: One of the biggest hurdles was developing custom cookie-handling middleware for restricted diagnostic portals. Overcoming this taught me how crucial efficient data structures are when scaling operations.\n\nWhat\u2019s the biggest manual bottleneck you\u2019ve faced in your daily workflows? Drop it in the comments \ud83d\udc47\n\n#Python #Selenium #Pandas #DataAutomation #MISReporting",
+      "image": "/projects/diagnostic-extractor/success.png",
+      "status": "pending"
+    }
+  ],
+  "leads": [
+    {
+      "id": "67b9cbbd-667b-4af4-8574-a86d7389794f",
+      "name": "sai",
+      "email": "archeus896@gmail.com",
+      "subject": "testing",
+      "message": "Testing the form submission",
+      "submitted_at": "2026-04-05T05:50:21.698833",
+      "read": true
+    },
+    {
+      "id": "8f9224f5-5882-4d86-9293-be67e4fc7281",
+      "name": "Dev",
+      "email": "dev@abccorporations.in",
+      "subject": "Project Testing",
+      "message": "Hi Sai,\n\nTesting Successful",
+      "submitted_at": "2026-04-07T12:00:21.480614",
+      "read": true
+    }
+  ],
+  "analytics": [
+    {
+      "id": "8a52f689-d978-42e6-8489-413c86ed20fb",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T06:16:40.502713"
+    },
+    {
+      "id": "6deac4f1-1a7b-46d9-bf14-1cb223fd01dc",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T06:16:40.580725"
+    },
+    {
+      "id": "b691562b-219e-476e-8ef9-d43d9f5b7d17",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 77
+      },
+      "timestamp": "2026-04-05T06:17:54.088321"
+    },
+    {
+      "id": "9e4808f1-e7dc-410a-8d15-f9ca92534148",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T06:18:10.771402"
+    },
+    {
+      "id": "a8ca21f9-7db1-4cc3-b2db-018a9fd83c1c",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T06:18:10.828254"
+    },
+    {
+      "id": "7c26d8e3-9b8b-461a-adac-0611f0faa3f9",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-05T06:18:41.222678"
+    },
+    {
+      "id": "0c3bad5c-69fa-43dd-ace9-a662ce9b647e",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 60
+      },
+      "timestamp": "2026-04-05T06:19:11.222512"
+    },
+    {
+      "id": "815044e8-0ab7-45dc-a0d1-d9c69c89c801",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 90
+      },
+      "timestamp": "2026-04-05T06:19:41.209552"
+    },
+    {
+      "id": "18998407-5211-4ffe-9c7a-b1370f4b171b",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 120
+      },
+      "timestamp": "2026-04-05T06:20:11.213533"
+    },
+    {
+      "id": "afed7d3d-a26a-4462-a80a-bbda66379de0",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 150
+      },
+      "timestamp": "2026-04-05T06:20:41.216410"
+    },
+    {
+      "id": "5bb038de-1b2e-4c18-aec2-3f50fbba3067",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 180
+      },
+      "timestamp": "2026-04-05T06:21:11.214561"
+    },
+    {
+      "id": "981ad124-e772-4700-81a0-28412be2d70c",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 258
+      },
+      "timestamp": "2026-04-05T06:22:29.211912"
+    },
+    {
+      "id": "01e8ffa3-d705-465b-a689-1f236bab8111",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 318
+      },
+      "timestamp": "2026-04-05T06:23:29.212981"
+    },
+    {
+      "id": "3b339ef6-7e29-4cdc-8e35-5e50ac4d7090",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 378
+      },
+      "timestamp": "2026-04-05T06:24:29.216101"
+    },
+    {
+      "id": "3225712e-ac50-41ec-b515-818a619066ed",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T13:48:58.352129"
+    },
+    {
+      "id": "45979961-3f9d-4129-90f6-4dfed1fc526b",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T13:48:58.744228"
+    },
+    {
+      "id": "2d4cfc8a-ca6e-4026-9d42-1aa1eaabce3d",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 13
+      },
+      "timestamp": "2026-04-05T13:49:06.564145"
+    },
+    {
+      "id": "0ad3f522-3f7f-4e2b-9f37-0b713dc04e0d",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T13:49:31.332732"
+    },
+    {
+      "id": "041dbe2c-4d09-4e02-b046-7fc7725829db",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 2
+      },
+      "timestamp": "2026-04-05T13:49:31.605988"
+    },
+    {
+      "id": "51949007-64f5-4434-843f-6aab34c9f8e6",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T13:49:41.824325"
+    },
+    {
+      "id": "17579198-26db-4901-83d5-41a8c43f69ed",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T13:49:41.901257"
+    },
+    {
+      "id": "aade5634-ffcf-4bc5-81cb-4e022429d11a",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 31
+      },
+      "timestamp": "2026-04-05T13:50:12.196235"
+    },
+    {
+      "id": "bfae87fb-ba23-41a3-be9c-424a4755da71",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 110
+      },
+      "timestamp": "2026-04-05T13:51:30.834903"
+    },
+    {
+      "id": "659c0e7f-d320-4f13-9ea2-0075f9b64d80",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 121
+      },
+      "timestamp": "2026-04-05T13:51:42.298651"
+    },
+    {
+      "id": "ddc7a0e5-8ee5-4dc3-a8e9-4a82a9e8b0a3",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 176
+      },
+      "timestamp": "2026-04-05T13:52:37.608352"
+    },
+    {
+      "id": "cc5c6c88-10a1-4113-aae0-ba4377b8e54d",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 181
+      },
+      "timestamp": "2026-04-05T13:52:42.658888"
+    },
+    {
+      "id": "6fe127a8-8d52-4392-a068-e61e34c2cebe",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 186
+      },
+      "timestamp": "2026-04-05T13:52:47.190039"
+    },
+    {
+      "id": "8e8c317f-1e7d-4991-bfdd-c65504ee1539",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T14:16:29.521223"
+    },
+    {
+      "id": "070410d3-f3fe-49c2-994d-2e23e0757545",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T14:16:29.905983"
+    },
+    {
+      "id": "2dcf84d6-8399-4f10-9014-5b3e0b980981",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 4
+      },
+      "timestamp": "2026-04-05T14:16:31.267337"
+    },
+    {
+      "id": "4752438c-1aa5-45e2-82b7-e7aa96e0990a",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T14:17:21.647528"
+    },
+    {
+      "id": "aec9fd66-d3ac-4825-ad99-ed539a33b406",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T14:17:22.588697"
+    },
+    {
+      "id": "6e7eef9c-aa13-402c-a75e-3cc1f402a7f8",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 7
+      },
+      "timestamp": "2026-04-05T14:17:29.271360"
+    },
+    {
+      "id": "560d1811-3f03-4a46-9b90-423959751603",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T14:17:51.127923"
+    },
+    {
+      "id": "1cc65092-fcce-43f2-8164-25a04975ebe0",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "i820lej8vjd",
+      "metadata": {},
+      "timestamp": "2026-04-05T14:17:51.216908"
+    },
+    {
+      "id": "c07f42af-0f36-4874-ba06-2d5cbbe1ddbc",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "i820lej8vjd",
+      "metadata": {
+        "total_seconds": 7
+      },
+      "timestamp": "2026-04-05T14:17:58.455917"
+    },
+    {
+      "id": "2bd79c6e-260d-4dce-8db0-99a60ea7b66f",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "t63rxc4q67",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:21:31.031841"
+    },
+    {
+      "id": "36927b0a-ba4d-48ae-8020-da1a70bb6d95",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "t63rxc4q67",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:21:31.460716"
+    },
+    {
+      "id": "a1461a3e-7021-4b84-9754-df813374d7dd",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "r8707h6t0v",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:21:33.450844"
+    },
+    {
+      "id": "0fc24083-447f-4b79-a83f-d94d03e54122",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "r8707h6t0v",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:21:33.639495"
+    },
+    {
+      "id": "99c4c69a-2fda-4774-936f-f256edccb8f9",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 31
+      },
+      "timestamp": "2026-04-07T10:21:57.573962"
+    },
+    {
+      "id": "4b58ede0-40ee-47e0-9bb9-fdbbfaef0eb3",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "t63rxc4q67",
+      "metadata": {
+        "total_seconds": 31
+      },
+      "timestamp": "2026-04-07T10:21:58.448575"
+    },
+    {
+      "id": "e4caea18-d8d9-4b5b-9da3-e12c0c93cfba",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 37
+      },
+      "timestamp": "2026-04-07T10:22:03.665938"
+    },
+    {
+      "id": "75dbf036-c540-4d38-8ec9-ade6ca4eb4dc",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:22:03.846996"
+    },
+    {
+      "id": "711632d4-fc99-4155-9140-55304bcc4966",
+      "event_type": "project_view",
+      "resource_id": "proj-2",
+      "session_id": "r8707h6t0v",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:22:11.276246"
+    },
+    {
+      "id": "d6ad10e7-b86c-49d0-863c-0366b252cf23",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "t63rxc4q67",
+      "metadata": {
+        "total_seconds": 61
+      },
+      "timestamp": "2026-04-07T10:22:27.574449"
+    },
+    {
+      "id": "0d0bda5c-686d-4083-af7c-cc3d3efa07a7",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T10:22:33.668707"
+    },
+    {
+      "id": "c452c8ad-9e7d-490f-95ee-9fe2d3544d2d",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "t63rxc4q67",
+      "metadata": {
+        "total_seconds": 80
+      },
+      "timestamp": "2026-04-07T10:22:46.511314"
+    },
+    {
+      "id": "dee46773-748b-486e-ae1f-f11d747c715b",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "t63rxc4q67",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:22:47.106088"
+    },
+    {
+      "id": "14cb6e68-8050-48c1-b580-6b5809d84fbb",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 60
+      },
+      "timestamp": "2026-04-07T10:23:04.175716"
+    },
+    {
+      "id": "cbd063eb-044a-4ee7-b7c0-5395896782a1",
+      "event_type": "project_view",
+      "resource_id": "proj-1",
+      "session_id": "r8707h6t0v",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:23:23.226158"
+    },
+    {
+      "id": "db7672f1-eac4-47db-9cd2-afd6c2f06cca",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 90
+      },
+      "timestamp": "2026-04-07T10:23:33.697884"
+    },
+    {
+      "id": "597f8d11-7d29-4999-bf3a-c4acf61f0f66",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 122
+      },
+      "timestamp": "2026-04-07T10:24:06.184078"
+    },
+    {
+      "id": "4d3476f2-461d-44cb-8dfd-836e258acdc7",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 151
+      },
+      "timestamp": "2026-04-07T10:24:34.508606"
+    },
+    {
+      "id": "48174ebc-1de4-4107-84eb-219cc8c367ef",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 181
+      },
+      "timestamp": "2026-04-07T10:25:04.533130"
+    },
+    {
+      "id": "93dece39-2b5e-4d95-8a1d-4f7ce2278670",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 210
+      },
+      "timestamp": "2026-04-07T10:25:33.731740"
+    },
+    {
+      "id": "30acae39-725c-4e47-a8ab-bd494d09f684",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 241
+      },
+      "timestamp": "2026-04-07T10:26:04.480201"
+    },
+    {
+      "id": "2bb1a2dd-cbc3-4824-956f-aa6d92fc8a00",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 271
+      },
+      "timestamp": "2026-04-07T10:26:34.483332"
+    },
+    {
+      "id": "904b5ca5-df95-41d5-852c-b48d44093880",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 301
+      },
+      "timestamp": "2026-04-07T10:27:04.508619"
+    },
+    {
+      "id": "6c26aecf-360f-4928-8fa1-6bbf59728ddb",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 336
+      },
+      "timestamp": "2026-04-07T10:27:52.543048"
+    },
+    {
+      "id": "b73c3045-c1e4-479e-8c76-a6599671af5a",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 369
+      },
+      "timestamp": "2026-04-07T10:28:13.066028"
+    },
+    {
+      "id": "2280b953-f08b-4b5d-a04e-6dd06c6d0efa",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 390
+      },
+      "timestamp": "2026-04-07T10:28:33.733466"
+    },
+    {
+      "id": "37e62487-101d-4211-ba99-af96d0f2938a",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 394
+      },
+      "timestamp": "2026-04-07T10:28:38.471012"
+    },
+    {
+      "id": "2ff929a8-17df-41bd-9d6c-ef7d89ce97e2",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "49jsswbgnyj",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:31:41.047729"
+    },
+    {
+      "id": "6b508a5f-b682-400a-b64b-dba832048aa9",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "49jsswbgnyj",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:31:41.196726"
+    },
+    {
+      "id": "6caa06c9-59b3-4169-8273-e77c9727077b",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "r8707h6t0v",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:32:09.935178"
+    },
+    {
+      "id": "e5e78911-398e-482b-b2f2-f0378e66e70d",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "r8707h6t0v",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:32:14.661439"
+    },
+    {
+      "id": "5443b105-6dcd-48e6-8485-d2a5f8b7274d",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 4
+      },
+      "timestamp": "2026-04-07T10:32:14.859215"
+    },
+    {
+      "id": "c98882aa-b883-4dd4-9e53-b1db0716c639",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:32:15.249236"
+    },
+    {
+      "id": "3d70c8ca-2f32-419f-9420-4f57b6bfeaa6",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 36
+      },
+      "timestamp": "2026-04-07T10:32:18.718194"
+    },
+    {
+      "id": "59152c4e-e17b-437c-9fc1-730e1a59481c",
+      "event_type": "project_view",
+      "resource_id": "proj-2",
+      "session_id": "r8707h6t0v",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:32:26.314644"
+    },
+    {
+      "id": "86bcec84-e1a5-4c78-b98f-d606e40a53c8",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T10:32:42.229859"
+    },
+    {
+      "id": "ff218211-b80c-47d0-8052-c1b648861418",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 64
+      },
+      "timestamp": "2026-04-07T10:32:45.467145"
+    },
+    {
+      "id": "cafe47c9-b682-45ba-ac60-16391fc5c374",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 68
+      },
+      "timestamp": "2026-04-07T10:32:48.732496"
+    },
+    {
+      "id": "d36ba1bf-c211-481f-b4b1-8740d88223de",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:32:49.566795"
+    },
+    {
+      "id": "d4e4af44-1bca-4f17-b83e-f68ee52c51eb",
+      "event_type": "project_view",
+      "resource_id": "proj-2",
+      "session_id": "49jsswbgnyj",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:32:54.228923"
+    },
+    {
+      "id": "08af1f95-c521-4418-82d7-8db971adae8a",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 60
+      },
+      "timestamp": "2026-04-07T10:33:12.934798"
+    },
+    {
+      "id": "da63663b-866b-4586-ab55-eebda7e6f84e",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 31
+      },
+      "timestamp": "2026-04-07T10:33:20.547988"
+    },
+    {
+      "id": "6a58fd6b-7924-43f4-9fb6-3a82830282bf",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 90
+      },
+      "timestamp": "2026-04-07T10:33:42.557782"
+    },
+    {
+      "id": "10257fc4-9be3-4d8c-9564-76fdf65a4004",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 60
+      },
+      "timestamp": "2026-04-07T10:33:48.772053"
+    },
+    {
+      "id": "550f083a-be28-4112-84db-761ed6fc678e",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 120
+      },
+      "timestamp": "2026-04-07T10:34:12.511091"
+    },
+    {
+      "id": "d1f75cbe-8b0d-49f4-9ce9-602a3131aaa6",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 90
+      },
+      "timestamp": "2026-04-07T10:34:18.809680"
+    },
+    {
+      "id": "718e0b14-960e-465c-b4d4-276c876e271a",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 155
+      },
+      "timestamp": "2026-04-07T10:34:47.956951"
+    },
+    {
+      "id": "b5cd95eb-ea65-4dc1-8d04-bfa6f9e775e2",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 122
+      },
+      "timestamp": "2026-04-07T10:34:51.330003"
+    },
+    {
+      "id": "e49cd83e-d32c-433c-b0a3-02b3df2085d9",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 180
+      },
+      "timestamp": "2026-04-07T10:35:12.690934"
+    },
+    {
+      "id": "3d62c06d-df14-4c66-be12-cb8920a19226",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 150
+      },
+      "timestamp": "2026-04-07T10:35:18.986765"
+    },
+    {
+      "id": "5b89e92e-652d-48b1-8321-8b14e6956e1a",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 180
+      },
+      "timestamp": "2026-04-07T10:35:48.750513"
+    },
+    {
+      "id": "abc8cdd7-cde0-4056-86af-fa0c00150103",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 245
+      },
+      "timestamp": "2026-04-07T10:36:17.861126"
+    },
+    {
+      "id": "c8ebf1f6-e83a-424a-906a-e2063a240592",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 210
+      },
+      "timestamp": "2026-04-07T10:36:19.798885"
+    },
+    {
+      "id": "a5be06be-8287-4e45-a515-5dd07d154000",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 240
+      },
+      "timestamp": "2026-04-07T10:36:48.762513"
+    },
+    {
+      "id": "4d91f806-6f1e-4994-a3d9-0de1e18fba6e",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 305
+      },
+      "timestamp": "2026-04-07T10:37:17.535085"
+    },
+    {
+      "id": "05848aaa-641c-4654-8628-f0c8a7b515f5",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 270
+      },
+      "timestamp": "2026-04-07T10:37:20.000898"
+    },
+    {
+      "id": "a871cc12-6adc-4ab9-b43f-d613e2feb8c7",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 301
+      },
+      "timestamp": "2026-04-07T10:37:49.403992"
+    },
+    {
+      "id": "88379db8-08e9-482a-a04c-414e064a0576",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 328
+      },
+      "timestamp": "2026-04-07T10:38:16.822573"
+    },
+    {
+      "id": "37487ddd-c879-41fc-ad77-8f723eda8b5e",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 365
+      },
+      "timestamp": "2026-04-07T10:38:16.879628"
+    },
+    {
+      "id": "bebfe979-31d2-470f-9b94-48e9038c0434",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:38:16.977487"
+    },
+    {
+      "id": "faa11452-e58e-45f3-9c45-55b79fadf9fd",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:38:17.031185"
+    },
+    {
+      "id": "4033b3ee-0246-46dd-9ed6-454bf484d4ba",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 355
+      },
+      "timestamp": "2026-04-07T10:38:43.515468"
+    },
+    {
+      "id": "a66e6887-a6b7-4c13-b782-344dcd9da08d",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:38:43.584643"
+    },
+    {
+      "id": "b4ec4e73-0ae7-4b92-a973-e960c3e32c55",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 385
+      },
+      "timestamp": "2026-04-07T10:39:13.606365"
+    },
+    {
+      "id": "c97b03c6-fb26-4297-b51f-0737a56fcb3f",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 423
+      },
+      "timestamp": "2026-04-07T10:39:15.963828"
+    },
+    {
+      "id": "5f3f6f54-fc2c-4c66-90ce-56dcf7c43d0a",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:39:16.447087"
+    },
+    {
+      "id": "25639311-10ad-4b0e-bb29-6f5c3af26efa",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "r8707h6t0v",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:39:28.273712"
+    },
+    {
+      "id": "66083136-4c36-476c-a592-3ff48b798de8",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "r8707h6t0v",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:39:28.356534"
+    },
+    {
+      "id": "edb5b2b3-63dc-4956-b7ad-940175703ee3",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 3
+      },
+      "timestamp": "2026-04-07T10:39:28.562752"
+    },
+    {
+      "id": "18ee53c5-2f51-4622-a6e4-60ffc5c02085",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:39:28.740865"
+    },
+    {
+      "id": "b0f01acb-1d80-4aaf-b79b-c955cf03a82b",
+      "event_type": "project_view",
+      "resource_id": "proj-2",
+      "session_id": "r8707h6t0v",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:39:33.464815"
+    },
+    {
+      "id": "f299ca55-a4b8-470a-bae5-6123af3b7590",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 415
+      },
+      "timestamp": "2026-04-07T10:39:43.963698"
+    },
+    {
+      "id": "42f1c73d-77ed-4baa-b907-8b95039f65ba",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T10:39:55.540421"
+    },
+    {
+      "id": "518286b1-067f-4ecf-8427-9d5ae78ef4e5",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 445
+      },
+      "timestamp": "2026-04-07T10:40:13.616575"
+    },
+    {
+      "id": "dd37d24a-1e2d-4989-b5af-a50567ea0ef7",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 60
+      },
+      "timestamp": "2026-04-07T10:40:24.990350"
+    },
+    {
+      "id": "494bb28d-1bd1-4ff9-a53f-afc37a53e296",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 475
+      },
+      "timestamp": "2026-04-07T10:40:43.603491"
+    },
+    {
+      "id": "fc1710a1-0b48-4fa1-9140-600ec90f3cb2",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 90
+      },
+      "timestamp": "2026-04-07T10:40:55.595222"
+    },
+    {
+      "id": "6f7db928-df09-41bf-9fd9-a988b1f027db",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 505
+      },
+      "timestamp": "2026-04-07T10:41:13.539972"
+    },
+    {
+      "id": "09037e74-bf0e-452b-aa43-ef1800856f9f",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 120
+      },
+      "timestamp": "2026-04-07T10:41:25.715183"
+    },
+    {
+      "id": "455a564b-b9f9-4c7e-9129-89d9907eff1e",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 535
+      },
+      "timestamp": "2026-04-07T10:41:43.598868"
+    },
+    {
+      "id": "51dd2cfe-708b-4778-a603-c028e0ab4c94",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 150
+      },
+      "timestamp": "2026-04-07T10:41:55.502902"
+    },
+    {
+      "id": "55a0b85f-067e-4ccc-8c3d-796c9f055176",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 565
+      },
+      "timestamp": "2026-04-07T10:42:13.512076"
+    },
+    {
+      "id": "64d14e46-6ab7-4b1a-b218-d4c1d28b8b30",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 180
+      },
+      "timestamp": "2026-04-07T10:42:25.580939"
+    },
+    {
+      "id": "ea4f6488-3cf7-4dcc-8501-b31cfa99b828",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 595
+      },
+      "timestamp": "2026-04-07T10:42:43.522605"
+    },
+    {
+      "id": "a5113547-b82f-49cd-b9aa-f9fab21f7d8d",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 224
+      },
+      "timestamp": "2026-04-07T10:43:09.417866"
+    },
+    {
+      "id": "e1a2120a-c3c3-43a0-aff9-3f74cd23a2fd",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 625
+      },
+      "timestamp": "2026-04-07T10:43:13.670728"
+    },
+    {
+      "id": "10a7fef9-13f4-4ab5-97ab-6c2893ff6510",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 240
+      },
+      "timestamp": "2026-04-07T10:43:24.984338"
+    },
+    {
+      "id": "800fbfa5-b2fa-44be-a6f2-28505b46bc6c",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 655
+      },
+      "timestamp": "2026-04-07T10:43:43.880966"
+    },
+    {
+      "id": "2c6bb7b5-346d-43bf-a754-79e89560e3c9",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 270
+      },
+      "timestamp": "2026-04-07T10:43:54.990568"
+    },
+    {
+      "id": "051bd1c2-b374-4ea7-86cd-903ea563faa2",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 685
+      },
+      "timestamp": "2026-04-07T10:44:13.804431"
+    },
+    {
+      "id": "0cba68fe-c1c5-4b62-baab-b276fb9c1261",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 300
+      },
+      "timestamp": "2026-04-07T10:44:25.023048"
+    },
+    {
+      "id": "28d26fd8-45fc-44a8-878e-c534185e0861",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 715
+      },
+      "timestamp": "2026-04-07T10:44:43.585305"
+    },
+    {
+      "id": "9f69086f-22c6-4c72-a843-6245d4809985",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 330
+      },
+      "timestamp": "2026-04-07T10:44:55.015726"
+    },
+    {
+      "id": "1760661d-bb61-41d4-b6d2-59d9c4a7c6ad",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 361
+      },
+      "timestamp": "2026-04-07T10:45:26.485931"
+    },
+    {
+      "id": "56994e65-c650-41c4-8bc1-2b03ce09666e",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 757
+      },
+      "timestamp": "2026-04-07T10:45:26.596520"
+    },
+    {
+      "id": "9f5d1bf0-e67c-438f-bcee-801e8d40579c",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 775
+      },
+      "timestamp": "2026-04-07T10:45:43.927797"
+    },
+    {
+      "id": "f374d9d8-41a2-46c9-b27d-124ac7376722",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 394
+      },
+      "timestamp": "2026-04-07T10:46:01.765459"
+    },
+    {
+      "id": "e66391b3-2e30-48b2-9458-7d66c5a0b43d",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 805
+      },
+      "timestamp": "2026-04-07T10:46:14.386854"
+    },
+    {
+      "id": "c0580136-3412-4d9d-a956-646e18ef7ddf",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "49jsswbgnyj",
+      "metadata": {
+        "total_seconds": 835
+      },
+      "timestamp": "2026-04-07T10:46:43.543566"
+    },
+    {
+      "id": "137aa371-8e34-43f5-a008-ceec64da832d",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "r8707h6t0v",
+      "metadata": {
+        "total_seconds": 491
+      },
+      "timestamp": "2026-04-07T10:47:43.017947"
+    },
+    {
+      "id": "3dd271da-1c3d-4c59-85aa-a88796f3e591",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:51:47.968624"
+    },
+    {
+      "id": "51390113-c904-4dfb-a7a4-a95007e82d19",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:51:48.203421"
+    },
+    {
+      "id": "dc469349-7c27-4855-a70c-0c61e2ede888",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:51:59.624494"
+    },
+    {
+      "id": "50a71bf7-26ed-4d36-970e-dc18062a8846",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:52:00.000050"
+    },
+    {
+      "id": "bdfc7965-5c28-47da-aeaa-6cc79bfcc544",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 3
+      },
+      "timestamp": "2026-04-07T10:52:02.766920"
+    },
+    {
+      "id": "09aa11c1-c9d7-4117-b0c7-b0eb0ae1a0da",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:52:02.986657"
+    },
+    {
+      "id": "2c43a967-7a81-4b89-8f2c-1521e15e0e06",
+      "event_type": "project_view",
+      "resource_id": "proj-2",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:52:06.451691"
+    },
+    {
+      "id": "88e7dd27-dac3-4f47-9ac2-f44d1f692f3b",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T10:52:33.766105"
+    },
+    {
+      "id": "6a06e087-1f80-4f23-bac0-81315bbab4ed",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "jdokzh6f1d8",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:53:05.598816"
+    },
+    {
+      "id": "e547aee6-4a78-4bdb-a5da-35ddef4fb24e",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "jdokzh6f1d8",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:53:05.675117"
+    },
+    {
+      "id": "9cfa5994-e5cb-4588-bed9-818e813d83c7",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 76
+      },
+      "timestamp": "2026-04-07T10:53:38.049595"
+    },
+    {
+      "id": "729f3d81-781d-4a26-a21a-cadc8c4da6f2",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 91
+      },
+      "timestamp": "2026-04-07T10:53:46.045965"
+    },
+    {
+      "id": "dbfb0ec7-f05e-45cc-9170-321655b32483",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "jdokzh6f1d8",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T10:53:46.437434"
+    },
+    {
+      "id": "44c18b4f-98f2-4349-9762-a6bd45993f91",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "jdokzh6f1d8",
+      "metadata": {
+        "total_seconds": 40
+      },
+      "timestamp": "2026-04-07T10:53:47.568015"
+    },
+    {
+      "id": "eb8925bf-d2d0-4bb6-82ff-09b2f4fae81a",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "jdokzh6f1d8",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:53:48.063238"
+    },
+    {
+      "id": "a4a36626-4345-4817-9fec-5423df12c73b",
+      "event_type": "project_view",
+      "resource_id": "proj-2",
+      "session_id": "jdokzh6f1d8",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:53:51.330263"
+    },
+    {
+      "id": "d6ed2256-c072-4751-a848-446dbd71612a",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 134
+      },
+      "timestamp": "2026-04-07T10:54:17.540194"
+    },
+    {
+      "id": "2dc90499-62bd-406c-86f8-691526659577",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 150
+      },
+      "timestamp": "2026-04-07T10:54:32.873996"
+    },
+    {
+      "id": "395371dc-ce84-46fe-be96-7e12474fc8e9",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 180
+      },
+      "timestamp": "2026-04-07T10:55:03.488138"
+    },
+    {
+      "id": "1b48fc0a-93d9-42de-ba50-e14b4b966b44",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:56:05.147031"
+    },
+    {
+      "id": "74c0d366-0051-4b29-a0c2-4c93b6ab1927",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 242
+      },
+      "timestamp": "2026-04-07T10:56:05.294393"
+    },
+    {
+      "id": "4ffc1c6f-3034-4dc8-9c32-16957c3accde",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 272
+      },
+      "timestamp": "2026-04-07T10:56:35.070974"
+    },
+    {
+      "id": "8e0c0e73-b252-480a-9346-78ac22a3c890",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 302
+      },
+      "timestamp": "2026-04-07T10:57:05.483457"
+    },
+    {
+      "id": "2e4dcf67-0115-4b31-afff-5e9bf2688b41",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 306
+      },
+      "timestamp": "2026-04-07T10:57:08.534216"
+    },
+    {
+      "id": "4b274cfe-f3f8-4e9a-877a-a301c322a014",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:57:11.154497"
+    },
+    {
+      "id": "09e7a0b8-a126-4ad9-a7d8-9ddf90ea8477",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 3
+      },
+      "timestamp": "2026-04-07T10:57:12.086379"
+    },
+    {
+      "id": "7b9a7041-3098-4e1f-8031-c183a0a883a7",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:57:12.387282"
+    },
+    {
+      "id": "ad234fc8-4ca0-456b-bacd-528c2daf4694",
+      "event_type": "project_view",
+      "resource_id": "proj-1",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T10:57:16.443853"
+    },
+    {
+      "id": "f001910a-402f-4f38-9230-6f5d2602ceac",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T10:57:42.076166"
+    },
+    {
+      "id": "a35cf90a-3c56-44b2-941d-371f173756b1",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 267
+      },
+      "timestamp": "2026-04-07T11:01:40.215602"
+    },
+    {
+      "id": "b6151db1-7164-4a03-aabd-fc863c75128d",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:01:40.578783"
+    },
+    {
+      "id": "24066288-bdef-4267-a4f4-d75c5ad338e5",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 267
+      },
+      "timestamp": "2026-04-07T11:01:40.676295"
+    },
+    {
+      "id": "b6e27b42-c14b-4868-ad4f-3bb09cc692cd",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:01:42.786942"
+    },
+    {
+      "id": "36e2ad30-37cd-472d-974f-d9ba978d410a",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:01:42.925032"
+    },
+    {
+      "id": "2ee08f31-b106-42bb-a6b3-50b360041526",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 3
+      },
+      "timestamp": "2026-04-07T11:01:46.266855"
+    },
+    {
+      "id": "90a956c2-66a7-491a-8e06-23ba70bb62be",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:01:46.343609"
+    },
+    {
+      "id": "fa129199-a7be-478d-8bbe-0715bf034cdc",
+      "event_type": "project_view",
+      "resource_id": "proj-1",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:01:48.970197"
+    },
+    {
+      "id": "4e78b6d5-494c-4e80-aaaf-25beb1fbda37",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T11:02:16.279915"
+    },
+    {
+      "id": "494445d1-e9cc-4879-befc-c56b83d34bfa",
+      "event_type": "project_view",
+      "resource_id": "proj-2",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:02:25.484746"
+    },
+    {
+      "id": "b59cadc4-81da-40a6-bb6b-fb746f57c624",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 60
+      },
+      "timestamp": "2026-04-07T11:02:46.367585"
+    },
+    {
+      "id": "24d968f3-87a7-4a68-9aa5-d583967d03c3",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 90
+      },
+      "timestamp": "2026-04-07T11:03:16.482821"
+    },
+    {
+      "id": "34240b24-c6da-43da-ac9f-38a15129afb5",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 120
+      },
+      "timestamp": "2026-04-07T11:03:46.272999"
+    },
+    {
+      "id": "c02b7d08-b860-411d-95e8-8256944fea23",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 142
+      },
+      "timestamp": "2026-04-07T11:04:08.508387"
+    },
+    {
+      "id": "1f80d841-2dec-4de8-a056-1ee6caa8093d",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:04:08.559088"
+    },
+    {
+      "id": "e581c118-4659-4cbb-b6d0-b498a6daf30a",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 164
+      },
+      "timestamp": "2026-04-07T11:04:30.784064"
+    },
+    {
+      "id": "e7c5e192-b0ee-4eed-86eb-6d1120cce7a4",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:04:30.842214"
+    },
+    {
+      "id": "9e251982-ce77-4866-941e-c64852741801",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 194
+      },
+      "timestamp": "2026-04-07T11:05:00.802560"
+    },
+    {
+      "id": "b8c48aa9-a08b-44f5-9ea1-c3ee86cdfaae",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:05:07.872982"
+    },
+    {
+      "id": "1f48c296-15da-4726-9c16-92fe78e2cb0d",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 201
+      },
+      "timestamp": "2026-04-07T11:05:07.980244"
+    },
+    {
+      "id": "fd50c3aa-e294-455a-91cd-d3d06d745021",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 225
+      },
+      "timestamp": "2026-04-07T11:05:31.808356"
+    },
+    {
+      "id": "dca31563-19c2-4d00-92ce-197332bf6a44",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:05:32.472053"
+    },
+    {
+      "id": "c50d5939-22df-499e-80cd-2bb84992a7ab",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 256
+      },
+      "timestamp": "2026-04-07T11:06:02.489920"
+    },
+    {
+      "id": "09c9994c-a965-4aa8-b90c-51c9873b1a40",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 286
+      },
+      "timestamp": "2026-04-07T11:06:32.484897"
+    },
+    {
+      "id": "e4665652-3d5c-497b-b7ce-c552d2f958da",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:06:58.804884"
+    },
+    {
+      "id": "232d3fd6-cc0c-4840-bf67-08524319aa7c",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:06:59.342649"
+    },
+    {
+      "id": "c8caf847-46a4-4994-8843-ccf51b94e02d",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 2
+      },
+      "timestamp": "2026-04-07T11:07:01.221820"
+    },
+    {
+      "id": "cc074d0b-7dea-4cdd-88ca-3f233e283d7f",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:07:01.302651"
+    },
+    {
+      "id": "2df6ad2c-2a56-4dc8-9016-9670bcd29463",
+      "event_type": "project_view",
+      "resource_id": "proj-1",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:07:02.784977"
+    },
+    {
+      "id": "026bb8a3-de98-4c0a-9069-fb07f1d4c5ab",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T11:07:31.485123"
+    },
+    {
+      "id": "8ba939a9-e489-41ec-a9fe-395e892aa3ce",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 60
+      },
+      "timestamp": "2026-04-07T11:08:01.488328"
+    },
+    {
+      "id": "6c35d725-73e4-4125-9452-b54c052cd8e0",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:08:16.374618"
+    },
+    {
+      "id": "a59c68c8-07fa-4270-be95-1344a7abdcc9",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:08:16.627070"
+    },
+    {
+      "id": "0b919a50-9abc-4726-b805-784d064bbc95",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 2
+      },
+      "timestamp": "2026-04-07T11:08:18.859387"
+    },
+    {
+      "id": "7229cd22-ff0c-4a6d-b2d0-c48a316002ae",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:08:18.977503"
+    },
+    {
+      "id": "d6469755-01a2-4a95-b3e9-406636789bbd",
+      "event_type": "project_view",
+      "resource_id": "proj-1",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:08:20.572570"
+    },
+    {
+      "id": "8fd74e4c-c2b6-4640-a194-c72f17c9930e",
+      "event_type": "project_view",
+      "resource_id": "proj-2",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:08:31.081063"
+    },
+    {
+      "id": "4d98656f-5b6f-4014-8976-5d858262fecb",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T11:08:49.491255"
+    },
+    {
+      "id": "f4c67802-9582-4322-9860-ad4a48323721",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 60
+      },
+      "timestamp": "2026-04-07T11:09:19.477771"
+    },
+    {
+      "id": "3e3f8f0a-1eb2-4e47-b760-590a3748f4da",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 76
+      },
+      "timestamp": "2026-04-07T11:09:34.830707"
+    },
+    {
+      "id": "db37f3e8-22e4-4fd7-8b1c-0c1e528dfadd",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:09:34.953056"
+    },
+    {
+      "id": "447e451e-4060-48d0-9fcb-f65ca0f6d17c",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 106
+      },
+      "timestamp": "2026-04-07T11:10:05.495452"
+    },
+    {
+      "id": "57f0da48-8c1b-4d5f-92a5-5599f4ed2e25",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 136
+      },
+      "timestamp": "2026-04-07T11:10:35.483844"
+    },
+    {
+      "id": "83b3a8fb-a097-4ea5-9f64-2f190b6fab8d",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 142
+      },
+      "timestamp": "2026-04-07T11:10:41.682335"
+    },
+    {
+      "id": "e5356266-ae43-4cfa-b95b-f3eb51cca90e",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:10:41.823907"
+    },
+    {
+      "id": "5db11b86-1ce4-4b2a-9c35-025dfdf1b0ef",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 173
+      },
+      "timestamp": "2026-04-07T11:11:11.798377"
+    },
+    {
+      "id": "b433410b-12b5-42f3-ba06-89c44ebfc5f8",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 203
+      },
+      "timestamp": "2026-04-07T11:11:42.478039"
+    },
+    {
+      "id": "31618bfd-6f94-4be8-bc82-c64ed2c1ea47",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 233
+      },
+      "timestamp": "2026-04-07T11:12:12.472431"
+    },
+    {
+      "id": "433e0769-6729-42bb-9b66-733505d79e91",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 263
+      },
+      "timestamp": "2026-04-07T11:12:41.954389"
+    },
+    {
+      "id": "593749f5-67e7-477f-b0e3-83c0f455b1f7",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:12:45.625236"
+    },
+    {
+      "id": "f8903595-658f-4756-9059-86af3fe8c856",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:12:46.222331"
+    },
+    {
+      "id": "7f3a3618-ff05-4be5-88f1-4dfbf598090b",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 4
+      },
+      "timestamp": "2026-04-07T11:12:50.266403"
+    },
+    {
+      "id": "7e269f99-3c31-4e87-97d9-7823efae8c1c",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:12:51.552670"
+    },
+    {
+      "id": "1a6a6b5a-bc83-4617-9076-2874bd33218d",
+      "event_type": "project_view",
+      "resource_id": "proj-1",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:12:53.156668"
+    },
+    {
+      "id": "174e33f8-ca25-46c2-a56d-0c7c32894ec0",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T11:13:19.634825"
+    },
+    {
+      "id": "32b4893a-bb09-4e53-bb24-efebf7277f46",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 61
+      },
+      "timestamp": "2026-04-07T11:13:50.484619"
+    },
+    {
+      "id": "e2ad44cc-62f5-4495-b6be-d4e75697d9c4",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 91
+      },
+      "timestamp": "2026-04-07T11:14:20.488343"
+    },
+    {
+      "id": "b22fd983-41b0-495d-9f14-c3f27506c62c",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 97
+      },
+      "timestamp": "2026-04-07T11:14:26.598327"
+    },
+    {
+      "id": "6e192451-ba1a-4d3e-97a2-3fc222e3829b",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:14:26.657324"
+    },
+    {
+      "id": "48767d7f-55c2-4bf2-855a-df6f2bbb0d08",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:14:26.713984"
+    },
+    {
+      "id": "cca08e91-60f2-481e-9ef1-1c8c502d86e4",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T11:14:57.479678"
+    },
+    {
+      "id": "e07c5c81-38ca-4610-a43b-45ab331a650c",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:15:17.728077"
+    },
+    {
+      "id": "7120490f-0b96-4c81-a96f-efb63831ea06",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:15:17.870284"
+    },
+    {
+      "id": "701f5426-ffa3-4fa1-8fe8-bcf0675099a7",
+      "event_type": "github_click",
+      "resource_id": "home_feed",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:15:28.329979"
+    },
+    {
+      "id": "740bfe1e-7823-4bfd-b2f0-15c615784a62",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 16
+      },
+      "timestamp": "2026-04-07T11:15:33.960682"
+    },
+    {
+      "id": "f4d07ac1-c28b-48e0-b55f-35700a232895",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:15:34.211635"
+    },
+    {
+      "id": "25e524cd-0f0d-46cf-bf5a-8c53f0da9e7e",
+      "event_type": "project_view",
+      "resource_id": "proj-1",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:15:36.157545"
+    },
+    {
+      "id": "3eb9c68e-bdb4-47ac-87f3-17fc39b708da",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 3
+      },
+      "timestamp": "2026-04-07T11:15:37.642397"
+    },
+    {
+      "id": "946479fd-6803-4588-8517-5fa46b2cfe3b",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:15:37.823164"
+    },
+    {
+      "id": "1d597f99-d5ca-417a-b8ef-06e28a2e44e2",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 34
+      },
+      "timestamp": "2026-04-07T11:16:08.487418"
+    },
+    {
+      "id": "c58db1b8-c9ec-482c-bf0c-dc23bfb41888",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:16:29.482184"
+    },
+    {
+      "id": "ee279597-e9a1-48ac-bf86-2718e532aca8",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:16:30.088782"
+    },
+    {
+      "id": "ef15c13f-d752-4c4d-8580-72a9129bc199",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 3
+      },
+      "timestamp": "2026-04-07T11:16:32.802222"
+    },
+    {
+      "id": "f4f80e4d-279f-43b8-b951-932351bd6c3e",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:16:32.922250"
+    },
+    {
+      "id": "ff49b3c8-4de6-49f5-b374-306e700c5f8d",
+      "event_type": "project_view",
+      "resource_id": "proj-1",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:16:33.912849"
+    },
+    {
+      "id": "74ecf99e-85bd-4004-84e4-01de545722e6",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T11:17:03.491630"
+    },
+    {
+      "id": "ea41b2fc-1cc6-4420-b500-3228f7d9ebb9",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 60
+      },
+      "timestamp": "2026-04-07T11:17:33.477633"
+    },
+    {
+      "id": "81f2d749-42e6-41d3-94c9-13f975942278",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:17:42.097712"
+    },
+    {
+      "id": "f842b91b-22d0-43f2-a392-e56156148067",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:17:42.351327"
+    },
+    {
+      "id": "031a058e-7cd2-4ad9-98e7-083c6ff9e7ec",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 5
+      },
+      "timestamp": "2026-04-07T11:17:47.682302"
+    },
+    {
+      "id": "13a4c1e8-5759-4ef3-a320-88caa1a94c67",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:17:52.090809"
+    },
+    {
+      "id": "02688368-1174-4340-9fe7-5b919266908e",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:17:52.328568"
+    },
+    {
+      "id": "1741de7c-09f1-4777-b406-3b4239d3fa92",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 9
+      },
+      "timestamp": "2026-04-07T11:18:01.742931"
+    },
+    {
+      "id": "f55bbad7-7410-4a10-9c3e-1385d55ab54a",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:18:01.831596"
+    },
+    {
+      "id": "be6f48eb-0f50-4bf5-b431-99fdbc83c6af",
+      "event_type": "project_view",
+      "resource_id": "proj-1",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:18:03.464639"
+    },
+    {
+      "id": "574db986-e3d4-4eec-b6cd-14a34d7cdb09",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 11
+      },
+      "timestamp": "2026-04-07T11:18:13.525957"
+    },
+    {
+      "id": "234fb7eb-e12c-4bdc-9140-d807fbdf0a0b",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:18:13.576962"
+    },
+    {
+      "id": "47b9454e-935f-467d-9c61-f32e7c6da8ee",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 42
+      },
+      "timestamp": "2026-04-07T11:18:44.487539"
+    },
+    {
+      "id": "88c38ac3-0673-4bc3-89a3-48a3d5df7e40",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 61
+      },
+      "timestamp": "2026-04-07T11:19:03.407116"
+    },
+    {
+      "id": "2b3ac359-5ebc-4503-844c-a4054e9c81c3",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:19:03.576800"
+    },
+    {
+      "id": "734296ab-e1ae-4ccb-8781-e3bca0983fb4",
+      "event_type": "project_view",
+      "resource_id": "proj-2",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:19:03.771815"
+    },
+    {
+      "id": "2737ab11-bea1-4db7-a419-6eb45fbf89d7",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:19:29.358310"
+    },
+    {
+      "id": "fc3439c8-5d84-459f-99ae-4833e7c219ae",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:19:30.015946"
+    },
+    {
+      "id": "cdae9826-ed2c-4d08-b40e-9c57952f1fa3",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 3
+      },
+      "timestamp": "2026-04-07T11:19:33.063076"
+    },
+    {
+      "id": "88f43811-8815-4e52-9a27-0ab890584ba2",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:19:33.159830"
+    },
+    {
+      "id": "8b32fbb0-8235-4af2-b678-028464e6d54e",
+      "event_type": "project_view",
+      "resource_id": "proj-2",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:19:36.291803"
+    },
+    {
+      "id": "8a8517d8-0cee-4c0b-ae00-b204aa9f77c6",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T11:20:03.485327"
+    },
+    {
+      "id": "aed102c5-72fa-4e94-8207-89d060f33684",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:20:30.307135"
+    },
+    {
+      "id": "fad32b80-9fcb-4b0a-867e-c2d6bc56eae4",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:20:30.549669"
+    },
+    {
+      "id": "9ee6f539-1f64-470c-bc99-8b923a7c9886",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T11:21:00.570095"
+    },
+    {
+      "id": "36e6b51a-854b-4366-b81c-2d758c10aa6b",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 60
+      },
+      "timestamp": "2026-04-07T11:21:30.480409"
+    },
+    {
+      "id": "4f1320fa-abc8-4999-b297-07625929e06a",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 90
+      },
+      "timestamp": "2026-04-07T11:22:00.495019"
+    },
+    {
+      "id": "d35064cc-f8cd-4e3d-9d9a-65701844cd95",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:22:27.880535"
+    },
+    {
+      "id": "fab4fbbe-588a-4d25-806b-9c4cc9bce94e",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:22:28.031342"
+    },
+    {
+      "id": "9af76dd6-ac72-423d-8d2c-43762eea54a4",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 3
+      },
+      "timestamp": "2026-04-07T11:22:30.794655"
+    },
+    {
+      "id": "cf1ae37d-6bb6-4996-9f4e-54a59913ba09",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:22:30.910389"
+    },
+    {
+      "id": "5b9214de-d542-4905-8ace-7e4cb261ecb0",
+      "event_type": "project_view",
+      "resource_id": "proj-1",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:22:32.540292"
+    },
+    {
+      "id": "04f8bd76-ed4f-4712-a39b-15424808ee1d",
+      "event_type": "project_view",
+      "resource_id": "proj-2",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:22:43.271989"
+    },
+    {
+      "id": "611297f8-0b8f-4741-a17d-af2d10881824",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T11:23:00.819865"
+    },
+    {
+      "id": "7d60f628-4a18-4ac8-9e5a-ae2b310b36dc",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 60
+      },
+      "timestamp": "2026-04-07T11:23:31.490495"
+    },
+    {
+      "id": "d42d1075-beae-40ef-a5e5-f9f95b71fffc",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 90
+      },
+      "timestamp": "2026-04-07T11:24:01.807108"
+    },
+    {
+      "id": "92d1a866-d1fe-482b-a0b7-39354134d7b6",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 93
+      },
+      "timestamp": "2026-04-07T11:24:04.263013"
+    },
+    {
+      "id": "2493ddf0-cde5-4913-8698-04bdee6c1ed6",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:24:04.901829"
+    },
+    {
+      "id": "08ccc4cf-1873-44e2-a20c-bae47c75c9ec",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 6
+      },
+      "timestamp": "2026-04-07T11:24:10.460489"
+    },
+    {
+      "id": "0eb9bb5f-243c-417d-a34d-e451477f137f",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:24:13.130131"
+    },
+    {
+      "id": "5a951dac-4fa8-4b72-b0be-546381b4e6e3",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 1
+      },
+      "timestamp": "2026-04-07T11:24:14.136221"
+    },
+    {
+      "id": "e6e8d346-293e-4225-bdc7-2cabccfe2f8d",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:24:14.468480"
+    },
+    {
+      "id": "9c92e1aa-96cf-428a-be91-a363fbb98bc2",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 5
+      },
+      "timestamp": "2026-04-07T11:24:20.233923"
+    },
+    {
+      "id": "9c2c863d-d2e2-4d75-8ed8-77c56fe3fc00",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:24:21.774305"
+    },
+    {
+      "id": "f059dd67-bef6-43ce-bb8a-2bb5421d0488",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:24:42.915356"
+    },
+    {
+      "id": "89a8441e-c8e8-478f-86cd-83a2cd11c800",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:24:42.985803"
+    },
+    {
+      "id": "e45c2e47-ae88-4c47-8bf9-ace6bab99af4",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T11:25:13.486625"
+    },
+    {
+      "id": "0b4b5cc8-fa16-4602-a384-910caaa177ff",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 60
+      },
+      "timestamp": "2026-04-07T11:25:43.488044"
+    },
+    {
+      "id": "68158392-502f-42ca-8c59-6d9208fbe293",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 90
+      },
+      "timestamp": "2026-04-07T11:26:13.587665"
+    },
+    {
+      "id": "3406724d-b110-4295-900e-e8a517c6db06",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 120
+      },
+      "timestamp": "2026-04-07T11:26:43.479090"
+    },
+    {
+      "id": "6353bd3c-14fd-433d-bd39-a2c02cb8d53b",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:27:08.616136"
+    },
+    {
+      "id": "c5228791-5dc7-4364-aae3-8133468cc0a1",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:27:08.805507"
+    },
+    {
+      "id": "7bb6a574-ba04-4e27-89e7-38b3b667e38a",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T11:27:38.895186"
+    },
+    {
+      "id": "81a3f6f6-f1e0-4c21-94df-3c55f3d032f1",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 51
+      },
+      "timestamp": "2026-04-07T11:28:00.320505"
+    },
+    {
+      "id": "01c35023-d4c5-48e8-98a3-79465a7358c9",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:28:06.138899"
+    },
+    {
+      "id": "82c43399-4636-44c4-a7b9-032160678da8",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 13
+      },
+      "timestamp": "2026-04-07T11:28:19.873064"
+    },
+    {
+      "id": "30459b99-5ef0-4622-978c-5bffa3e66e90",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:32:23.316810"
+    },
+    {
+      "id": "0ff22857-0b64-42a3-ade2-a66b30acf9f4",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 10
+      },
+      "timestamp": "2026-04-07T11:32:32.354385"
+    },
+    {
+      "id": "cbea8f31-d26d-4e73-8c02-358c3e3d6941",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:32:32.694220"
+    },
+    {
+      "id": "075fed94-53b8-41d6-b8fe-4515884fbccb",
+      "event_type": "github_click",
+      "resource_id": "home_feed",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:32:36.260307"
+    },
+    {
+      "id": "c2ff7aa1-244c-4ad8-960e-1bbb0a32de87",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 40
+      },
+      "timestamp": "2026-04-07T11:33:02.510046"
+    },
+    {
+      "id": "87be2bc5-4a82-422c-861e-31998ae27406",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:33:12.026956"
+    },
+    {
+      "id": "c5b8af92-2c87-4b7d-9156-0828da7dd79c",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:33:13.257301"
+    },
+    {
+      "id": "9e9d111f-5c1a-4b4c-b02f-5651015785b4",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 5
+      },
+      "timestamp": "2026-04-07T11:33:17.332914"
+    },
+    {
+      "id": "832f24fd-0732-45db-a772-3fad32ed0e92",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:33:17.501569"
+    },
+    {
+      "id": "3e552116-ded6-4f0b-a068-9745000c57ec",
+      "event_type": "project_view",
+      "resource_id": "proj-1",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:33:18.883685"
+    },
+    {
+      "id": "f11cb35f-558e-4580-babe-1992d5ca36ae",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T11:33:47.493645"
+    },
+    {
+      "id": "3183fffd-437f-4d22-8062-7b09476609eb",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 60
+      },
+      "timestamp": "2026-04-07T11:34:17.491301"
+    },
+    {
+      "id": "f6eab1ff-27ad-4cbf-9d88-6df320921e64",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 90
+      },
+      "timestamp": "2026-04-07T11:34:47.340680"
+    },
+    {
+      "id": "9c0b2f29-b74a-479e-ba2b-3720022d2fe3",
+      "event_type": "project_view",
+      "resource_id": "proj-2",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:34:51.322643"
+    },
+    {
+      "id": "0b43765e-fb42-45a5-84a5-a985b588f5fb",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 120
+      },
+      "timestamp": "2026-04-07T11:35:17.498037"
+    },
+    {
+      "id": "7ab9ce52-d997-4a17-a5c4-0b5c3bb2117d",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 150
+      },
+      "timestamp": "2026-04-07T11:35:47.622472"
+    },
+    {
+      "id": "e38517a2-fa7a-4493-aa5a-db52d62a7b01",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 174
+      },
+      "timestamp": "2026-04-07T11:36:12.199300"
+    },
+    {
+      "id": "b7e4419b-ca35-4488-950d-e708d04d485d",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:36:12.327046"
+    },
+    {
+      "id": "4a980363-3d14-4a33-982c-573b88ed71cc",
+      "event_type": "time_on_page",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 309
+      },
+      "timestamp": "2026-04-07T11:38:26.688851"
+    },
+    {
+      "id": "7fdecdf6-ea58-4894-ae87-80166999a72f",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 312
+      },
+      "timestamp": "2026-04-07T11:38:29.992919"
+    },
+    {
+      "id": "fb7f4a50-39f5-4a42-bd3e-8a98bc79123f",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:38:30.059769"
+    },
+    {
+      "id": "7508c1b5-e569-4b0d-ac4d-02877685aad7",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 326
+      },
+      "timestamp": "2026-04-07T11:38:43.802370"
+    },
+    {
+      "id": "565688ec-f8a2-457c-a060-72d35301d8b4",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:38:44.256086"
+    },
+    {
+      "id": "ede8be2c-9ab0-45e3-8ed6-fd74088520fb",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 12
+      },
+      "timestamp": "2026-04-07T11:38:55.778700"
+    },
+    {
+      "id": "a9c4eade-f59c-4832-9f39-85ecf8951656",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:38:55.879959"
+    },
+    {
+      "id": "0632f292-64a7-4420-9bbc-3f71e0428997",
+      "event_type": "project_view",
+      "resource_id": "proj-1",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:38:56.793219"
+    },
+    {
+      "id": "b77f8830-f427-4d62-b216-3dafede4aa58",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 11
+      },
+      "timestamp": "2026-04-07T11:39:07.548876"
+    },
+    {
+      "id": "94252f9c-eb5a-455e-a28c-2aa6fca74b5f",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:39:07.744664"
+    },
+    {
+      "id": "b2db003c-a683-4cdb-9c75-d024c87ccd70",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 49
+      },
+      "timestamp": "2026-04-07T11:39:57.152869"
+    },
+    {
+      "id": "cc0efe0a-1363-43a6-8203-e47d5baf37aa",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 54
+      },
+      "timestamp": "2026-04-07T11:40:01.755690"
+    },
+    {
+      "id": "caf52192-5be4-47ec-be28-caeeedb1a987",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:57:45.236940"
+    },
+    {
+      "id": "8b9b0ae1-fa1b-41d5-b5e3-1941181d6809",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:57:45.315804"
+    },
+    {
+      "id": "548aacee-7fe6-4b22-8959-e78107ed06cc",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T11:58:13.520109"
+    },
+    {
+      "id": "a949e75d-d2f4-4f1b-813a-83d9c5f592a7",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:58:17.816939"
+    },
+    {
+      "id": "d152f368-8f8e-47ec-bb12-ee18512bed84",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 60
+      },
+      "timestamp": "2026-04-07T11:58:43.518430"
+    },
+    {
+      "id": "200fa1fc-a616-477a-92a3-2b7b0ae1d635",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:58:50.967337"
+    },
+    {
+      "id": "6cd6b076-8e0a-44b5-8b1b-74055bf7c324",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:58:51.143194"
+    },
+    {
+      "id": "2a16378d-6d94-48cd-89fb-418497108c0b",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "zbctmo7ofoa",
+      "metadata": {
+        "total_seconds": 75
+      },
+      "timestamp": "2026-04-07T11:58:58.508215"
+    },
+    {
+      "id": "54aeb6a2-16e5-43b3-b157-2e6ae7a966b6",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 12
+      },
+      "timestamp": "2026-04-07T11:59:03.628388"
+    },
+    {
+      "id": "97c7139d-f805-4740-a8bc-6dd9eb62b71e",
+      "event_type": "contact_form_open",
+      "resource_id": "contact_section",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T11:59:44.379377"
+    },
+    {
+      "id": "c46cd446-f179-4967-8237-15179ec35fcb",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:00:30.448484"
+    },
+    {
+      "id": "28c92905-b061-44f5-b3c4-5538172821ad",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 1
+      },
+      "timestamp": "2026-04-07T12:00:32.037844"
+    },
+    {
+      "id": "4306cfb2-10fe-4e41-bd78-c2f7d4cd202b",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:00:41.891580"
+    },
+    {
+      "id": "880c5219-6cd5-4c73-abaa-2ec8893bedaf",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 29
+      },
+      "timestamp": "2026-04-07T12:01:11.351083"
+    },
+    {
+      "id": "18b96964-19ae-46c7-bda3-e0d5af4d7d25",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:03:38.942196"
+    },
+    {
+      "id": "82663c06-f7ac-48f8-8ed3-14e7b36faa5b",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:03:40.333306"
+    },
+    {
+      "id": "92d005a8-057a-4db1-82df-b1694c251372",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 3
+      },
+      "timestamp": "2026-04-07T12:03:42.042361"
+    },
+    {
+      "id": "d5f7a69a-c5c2-4c90-9ec4-924d65b4c704",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:03:42.229889"
+    },
+    {
+      "id": "1a8c721f-ff1b-42f8-91a2-3b47a8525ea5",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 2
+      },
+      "timestamp": "2026-04-07T12:03:44.137528"
+    },
+    {
+      "id": "60fe5b1f-760b-4f10-9992-21ea9f8f91ce",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:03:48.839028"
+    },
+    {
+      "id": "6e6aa69c-47cc-44b6-bd02-3700ee0ecfae",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:03:49.320112"
+    },
+    {
+      "id": "f48e3046-1974-44d6-9762-3e50585dac74",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 28
+      },
+      "timestamp": "2026-04-07T12:04:16.963871"
+    },
+    {
+      "id": "19c9236f-54d8-4366-9b0c-b459bc687155",
+      "event_type": "section_view",
+      "resource_id": "Work",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:04:17.076237"
+    },
+    {
+      "id": "1985b757-d8b0-4dc5-97cc-8bb2998268d9",
+      "event_type": "project_view",
+      "resource_id": "proj-2",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:04:18.492825"
+    },
+    {
+      "id": "dfb1864d-93fa-4887-8bc7-49fdfa7f7042",
+      "event_type": "linkedin_click",
+      "resource_id": "header_social",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:04:34.592845"
+    },
+    {
+      "id": "d85f329c-4e82-41d3-a144-67bc86a0aced",
+      "event_type": "time_on_page_final",
+      "resource_id": "Work",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 26
+      },
+      "timestamp": "2026-04-07T12:04:43.061965"
+    },
+    {
+      "id": "5856ec18-7a6e-4d3b-b23d-ffb164867a61",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:04:43.372359"
+    },
+    {
+      "id": "aac3ec35-76a8-4f69-b19e-57d025e2741a",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T12:05:13.118813"
+    },
+    {
+      "id": "5385f9f2-4ee1-4213-bae5-89d960e1da87",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 60
+      },
+      "timestamp": "2026-04-07T12:05:43.141402"
+    },
+    {
+      "id": "be8cab12-404d-4ebe-bef0-0aad0501868c",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 90
+      },
+      "timestamp": "2026-04-07T12:06:13.113466"
+    },
+    {
+      "id": "5555911f-9d8a-43ec-b539-d571de46e229",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 120
+      },
+      "timestamp": "2026-04-07T12:06:43.124378"
+    },
+    {
+      "id": "4475c4b3-eae5-472f-9cf4-9c0336840ab8",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 150
+      },
+      "timestamp": "2026-04-07T12:07:13.116585"
+    },
+    {
+      "id": "f3e33a87-e387-4fea-93a7-f46a499c11a5",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 180
+      },
+      "timestamp": "2026-04-07T12:07:43.107179"
+    },
+    {
+      "id": "125d025a-ddb5-4f12-8b36-64ce55e06816",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 210
+      },
+      "timestamp": "2026-04-07T12:08:13.100243"
+    },
+    {
+      "id": "ab8e0abd-016d-4a72-be3e-8c43a6c6c680",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 240
+      },
+      "timestamp": "2026-04-07T12:08:43.097130"
+    },
+    {
+      "id": "b350d6c0-2a15-4e7c-b74e-dd0d6388cf2e",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 270
+      },
+      "timestamp": "2026-04-07T12:09:13.128631"
+    },
+    {
+      "id": "22b481df-7410-4a72-9595-d36ebc5db855",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 300
+      },
+      "timestamp": "2026-04-07T12:09:43.138533"
+    },
+    {
+      "id": "903e3714-bb3d-4a9c-9a90-087ecfb1eb10",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 330
+      },
+      "timestamp": "2026-04-07T12:10:13.098775"
+    },
+    {
+      "id": "d214b9d0-8ae4-40b6-bb46-44232b547aaa",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 360
+      },
+      "timestamp": "2026-04-07T12:10:43.115477"
+    },
+    {
+      "id": "8214a0d4-6d52-487d-a34b-b7a9c1238053",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 390
+      },
+      "timestamp": "2026-04-07T12:11:13.109645"
+    },
+    {
+      "id": "d4eff01a-4882-4365-ba47-6a3a58ecd400",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 420
+      },
+      "timestamp": "2026-04-07T12:11:43.543072"
+    },
+    {
+      "id": "264a1429-453b-4cbe-b2d5-a56a03622c7b",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 441
+      },
+      "timestamp": "2026-04-07T12:12:04.971286"
+    },
+    {
+      "id": "35f03ff3-e4f3-4d42-b0a8-9734cda9736b",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:12:16.126412"
+    },
+    {
+      "id": "b68b466f-b050-4a02-a6d3-ac7fe1c870fb",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:12:16.849130"
+    },
+    {
+      "id": "f56703a2-6c97-4927-a473-10fade8a8ecd",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:12:22.554492"
+    },
+    {
+      "id": "5e3acdbf-29b6-4478-8933-5959d11f7714",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:12:22.831825"
+    },
+    {
+      "id": "c7070202-b757-4b8f-bcc6-7b928d75a87c",
+      "event_type": "time_on_page_final",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 3
+      },
+      "timestamp": "2026-04-07T12:12:26.398757"
+    },
+    {
+      "id": "ad1d465a-2e35-4a4d-9e64-2d4a2fc55a13",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:24:39.658546"
+    },
+    {
+      "id": "98d9eb14-c999-4d4c-8de9-69f70155c5a0",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:24:39.890768"
+    },
+    {
+      "id": "e3bdc6fe-0052-41f2-9332-d19cd0ca20fd",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 33
+      },
+      "timestamp": "2026-04-07T12:25:14.246957"
+    },
+    {
+      "id": "de5acf80-17c5-492d-a868-dac5f05d64bc",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 120
+      },
+      "timestamp": "2026-04-07T12:26:39.788133"
+    },
+    {
+      "id": "786a27b1-2457-462a-b2be-a6b41772c69e",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:26:44.059180"
+    },
+    {
+      "id": "ff8d4ee4-dcab-402d-92ff-236ee8d36edd",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:26:44.210397"
+    },
+    {
+      "id": "f452de95-d9aa-45fc-9f6b-778ee7fb9057",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:26:56.186424"
+    },
+    {
+      "id": "58dcc705-a4ac-4991-a7cb-03439dcb0185",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T12:26:56.380612"
+    },
+    {
+      "id": "118c0dec-e18d-4bf0-84fb-f2fcad57c944",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 30
+      },
+      "timestamp": "2026-04-07T12:27:27.288744"
+    },
+    {
+      "id": "df9c3cc3-1c54-4cba-868e-45eb240e4fca",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 61
+      },
+      "timestamp": "2026-04-07T12:27:58.293535"
+    },
+    {
+      "id": "f78b2c96-f4e1-4be8-b5a7-fa06c30c1998",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 92
+      },
+      "timestamp": "2026-04-07T12:28:28.425634"
+    },
+    {
+      "id": "315c2163-932f-483f-93e8-524eef763e2f",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 121
+      },
+      "timestamp": "2026-04-07T12:28:57.519602"
+    },
+    {
+      "id": "d4ab0c6c-5fd5-4950-a72f-9925c996db1f",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 150
+      },
+      "timestamp": "2026-04-07T12:29:26.619393"
+    },
+    {
+      "id": "a5118131-08f5-47ca-8d4d-8ab72d39cbd5",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 180
+      },
+      "timestamp": "2026-04-07T12:29:56.578096"
+    },
+    {
+      "id": "8be7bc0a-79d6-44d4-90b0-389dab7fda1f",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 261
+      },
+      "timestamp": "2026-04-07T12:31:17.863508"
+    },
+    {
+      "id": "60cdda61-17ec-4730-813a-4bd19b2d8613",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 321
+      },
+      "timestamp": "2026-04-07T12:32:17.926541"
+    },
+    {
+      "id": "e3651a68-0464-4c39-b986-e1cb263ef783",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 381
+      },
+      "timestamp": "2026-04-07T12:33:18.069133"
+    },
+    {
+      "id": "1a7af674-d7df-4f9f-aa1f-c84ccce2c826",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 442
+      },
+      "timestamp": "2026-04-07T12:34:19.037822"
+    },
+    {
+      "id": "588dd1b7-5613-4480-a0ba-219e29091d9f",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 501
+      },
+      "timestamp": "2026-04-07T12:35:18.540387"
+    },
+    {
+      "id": "8758f59e-7c9e-4e51-bc3f-2b4853a3bdae",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 561
+      },
+      "timestamp": "2026-04-07T12:36:18.336373"
+    },
+    {
+      "id": "83c5fe06-6db2-4ca9-8c4d-8a9f7c1206ec",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 621
+      },
+      "timestamp": "2026-04-07T12:37:18.159210"
+    },
+    {
+      "id": "05b2966c-3bb4-46d9-91b3-d645c3b93b7c",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 741
+      },
+      "timestamp": "2026-04-07T12:39:18.525026"
+    },
+    {
+      "id": "c4b0b3d7-7433-4f02-98ad-5f5fdba36e3b",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 801
+      },
+      "timestamp": "2026-04-07T12:40:17.550858"
+    },
+    {
+      "id": "e3c4a55b-2258-4374-bf46-bb302e0346b2",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 922
+      },
+      "timestamp": "2026-04-07T12:42:20.181494"
+    },
+    {
+      "id": "e216548c-71f9-413e-974f-41afa55b4b0e",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T14:06:57.195173"
+    },
+    {
+      "id": "9c50d889-8921-45ed-9742-50e6bde168c6",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-07T14:06:57.472777"
+    },
+    {
+      "id": "0a993049-7f8e-474b-8c0f-f58635fa48a2",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 33
+      },
+      "timestamp": "2026-04-07T14:07:14.975276"
+    },
+    {
+      "id": "234fe8c0-fe14-4a8e-86ec-b24ffccd2306",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 64
+      },
+      "timestamp": "2026-04-07T14:07:45.952641"
+    },
+    {
+      "id": "60909c34-cb92-4d21-b272-43859c6d3c39",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 92
+      },
+      "timestamp": "2026-04-07T14:08:13.658202"
+    },
+    {
+      "id": "7e9adfce-8153-4034-bab7-ff39ed9f761a",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 123
+      },
+      "timestamp": "2026-04-07T14:08:45.386777"
+    },
+    {
+      "id": "386eba5f-6403-43ac-8bf5-dea0afaa0941",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 152
+      },
+      "timestamp": "2026-04-07T14:09:13.574891"
+    },
+    {
+      "id": "503caee1-7a56-419f-841e-caf9027cfd98",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 182
+      },
+      "timestamp": "2026-04-07T14:09:43.910379"
+    },
+    {
+      "id": "c5f6afbc-5137-4d3e-933d-edbfe8634e44",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 212
+      },
+      "timestamp": "2026-04-07T14:10:13.744745"
+    },
+    {
+      "id": "7027b3c7-ae0f-40ea-94aa-45d0353ea373",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 276
+      },
+      "timestamp": "2026-04-07T14:11:17.889667"
+    },
+    {
+      "id": "e9b9060c-693a-4c05-85a1-3df5a5b8101d",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 342
+      },
+      "timestamp": "2026-04-07T14:12:23.712604"
+    },
+    {
+      "id": "53ce6ad1-226f-49ef-a5ce-e61d5503a354",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 402
+      },
+      "timestamp": "2026-04-07T14:13:23.650920"
+    },
+    {
+      "id": "e9bc6f3a-7067-4a55-b7c1-d2561f1e64de",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 55562
+      },
+      "timestamp": "2026-04-08T05:32:45.629543"
+    },
+    {
+      "id": "e55a19d9-a871-47d5-9007-086a097c4fd9",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 55598
+      },
+      "timestamp": "2026-04-08T05:33:21.567089"
+    },
+    {
+      "id": "7bfc0752-5126-4596-ad27-7e1269319a0b",
+      "event_type": "section_view",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-08T05:34:02.517372"
+    },
+    {
+      "id": "91a0ed0d-797a-4ce8-97cb-6e0e91f20a75",
+      "event_type": "page_view",
+      "resource_id": "initial_load",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {},
+      "timestamp": "2026-04-08T05:34:02.681660"
+    },
+    {
+      "id": "563e4fb4-068d-4a54-9fae-3560c555ba06",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 33
+      },
+      "timestamp": "2026-04-08T05:34:30.158030"
+    },
+    {
+      "id": "41a9cd6f-1052-4604-adf9-d11e48af33f5",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 63
+      },
+      "timestamp": "2026-04-08T05:35:00.252696"
+    },
+    {
+      "id": "59f7d212-a93a-412c-9c35-e6a610e4c8da",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 93
+      },
+      "timestamp": "2026-04-08T05:35:30.106860"
+    },
+    {
+      "id": "f0846eb1-e33f-4dc4-a12a-99cada1f9b77",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 123
+      },
+      "timestamp": "2026-04-08T05:36:00.198011"
+    },
+    {
+      "id": "69a8bbfa-0d35-4728-8a93-0006ee937d8e",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 153
+      },
+      "timestamp": "2026-04-08T05:36:30.163030"
+    },
+    {
+      "id": "36b1b46c-835d-4338-9715-11a4a8c2f4dd",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 183
+      },
+      "timestamp": "2026-04-08T05:37:00.637225"
+    },
+    {
+      "id": "0136eeda-1737-43f0-8957-cd6ad727c8e8",
+      "event_type": "time_on_page",
+      "resource_id": "Home",
+      "session_id": "0sa3ehwrcbi",
+      "metadata": {
+        "total_seconds": 257
+      },
+      "timestamp": "2026-04-08T05:38:14.454821"
+    }
+  ],
+  "experience": [
+    {
+      "title": "MIS Executive",
+      "company": "Prodify Innovatives",
+      "period": "February 2026 - Present",
+      "description": "Managing comprehensive data architectures, tracking operational KPIs, and delivering analytical insights through MIS reporting to support strategic decisions and process improvement.",
+      "achievements": [
+        "Spearheaded the management of comprehensive operational data, tracking operational KPIs and delivering critical analytical insights through MIS reporting.",
+        "Collected, compiled, and analyzed hospital operational data pertaining to wellness programs and clinical support services.",
+        "Prepared and presented daily, weekly, and monthly MIS reports to management and department heads.",
+        "Maintained accurate and up-to-date records of patient statistics, OPD/IPD data, and wellness program outcomes.",
+        "Monitored and tracked key performance indicators (KPIs), including occupancy rates, revenue, patient footfall, and performance.",
+        "Delivered data-driven insights and analytical support to management for strategic decision-making.",
+        "Ensured accuracy, consistency, and timely submission of crucial reports across all departments.",
+        "Coordinated effectively with clinical, administrative, HR, finance, and wellness teams to collect required data inputs.",
+        "Managed essential information systems, MIS dashboards, and databases.",
+        "Supported internal and external audits, compliance requirements, and management review meetings.",
+        "Automated and optimized routine reporting processes utilizing advanced Excel techniques and business intelligence software.",
+        "Analyzed critical trends, identified operational gaps, and recommended strategic opportunities."
+      ]
+    },
+    {
+      "title": "Healthcare Operations Executive",
+      "company": "ekincare",
+      "period": "January 2025 - February 2026",
+      "description": "Orchestrated end-to-end healthcare service delivery, handled insurance operations, and managed claims adjudication for corporate clients and provider networks.",
+      "achievements": [
+        "Orchestrated end-to-end healthcare service delivery, managed complex insurance operations, and expertly handled claims adjudication.",
+        "Managed comprehensive end-to-end appointment coordination and healthcare service delivery for corporate clientele.",
+        "Processed customer queries concerning prescriptions, laboratory tests, consultations, and order fulfilment.",
+        "Managed critical insurance operations, including claims adjudication, cashless approval processing, and complex authorisation workflows.",
+        "Coordinated diligently with hospitals, TPAs, and internal stakeholders to expedite cashless authorisations.",
+        "Applied structured escalation frameworks to efficiently resolve service disruptions and complex claim-related issues.",
+        "Maintained meticulous operational records, including service request tracking and claims status updates.",
+        "Ensured stringent compliance with SOPs, specific policy guidelines, and established quality benchmarks.",
+        "Improved backend operational efficiency through rigorous report generation and proactive TAT monitoring."
+      ]
+    },
+    {
+      "title": "Analyst",
+      "company": "Teleperformance",
+      "period": "September 2023 - November 2024",
+      "description": "Validated large-scale datasets for accuracy, reliability, and suitability for AI model training. Contributed to backend testing and SOP development.",
+      "achievements": [
+        "Validated large-scale datasets with strong attention to detail for accuracy, reliability, and suitability for subsequent AI model training.",
+        "Assessed extensive training data against critical compliance standards and rigorous quality guidelines.",
+        "Developed comprehensive, structured documentation and Standard Operating Procedures (SOPs) for data verification.",
+        "Conducted in-depth backend data testing to actively support AI tool development and performance optimization.",
+        "Maintained exceptionally high levels of data accuracy and unwavering compliance adherence across all validation tasks.",
+        "Generated precise weekly and monthly performance reports incorporating detailed analytical insights.",
+        "Applied analytical rigor and outstanding attention to detail while managing high-volume data operations."
+      ]
+    }
+  ]
+}

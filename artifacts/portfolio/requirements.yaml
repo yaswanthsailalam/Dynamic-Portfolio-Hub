@@ -1,0 +1,22 @@
+packages:
+  "framer-motion": "For smooth page transitions, stagger animations, and scroll effects"
+  "@hookform/resolvers": "Zod validation for the contact form"
+  "react-hook-form": "Form state management"
+  "zod": "Schema validation for forms"
+  "clsx": "Utility for constructing className strings conditionally"
+  "tailwind-merge": "Utility function to efficiently merge Tailwind CSS classes"
+
+images:
+  - path: "artifacts/portfolio/public/images/hero-bg.png"
+    description: "Dark, moody abstract background with glowing teal and cyan geometric data lines and subtle nodes, professional corporate tech aesthetic"
+    aspect_ratio: "16:9"
+  - path: "artifacts/portfolio/public/images/avatar.png"
+    description: "Minimalist stylized vector portrait of a professional data analyst, dark background, cyan accents, flat design"
+    aspect_ratio: "1:1"
+  - path: "artifacts/portfolio/public/images/abstract-data.png"
+    description: "Abstract representation of automated workflows and data pipelines, glowing neon blue and purple nodes connecting on a dark slate background"
+    aspect_ratio: "16:9"
+
+notes:
+  - No real backend API is assumed; mock mutations are used for form submission.
+  - Using framer-motion for SPA-like section transitions without routing.

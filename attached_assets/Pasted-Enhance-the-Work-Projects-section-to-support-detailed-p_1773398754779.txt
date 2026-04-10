@@ -1,0 +1,166 @@
+Enhance the "Work / Projects" section to support detailed project views with videos.
+
+Currently each project card shows only a short description. Add a "View Details" button to every project card.
+
+When a user clicks "View Details", open a modal popup that displays the full project overview.
+
+Do not navigate away from the page. Use a modal or overlay component so the site remains a single page application.
+
+--------------------------------------------------
+
+For each project modal include the following sections:
+
+1. Project Title
+
+2. Project Overview
+A short paragraph explaining the problem and solution.
+
+3. Tech Stack Used
+Display the technologies used as tags.
+
+4. Key Features
+Display bullet points of the major features of the project.
+
+5. Impact
+Display what improvement or benefit the automation or project provided.
+
+6. Demo Videos Section
+Add two video blocks:
+
+Video 1 Title:
+Tech Stack Explanation
+
+Video 2 Title:
+Project Working Demo
+
+Each video should support embedding a local video file or a YouTube link.
+
+Use HTML5 video elements so I can upload demo videos later.
+
+--------------------------------------------------
+
+Structure example inside the modal:
+
+Project Title
+
+Overview
+[Paragraph]
+
+Tech Stack
+[Tags]
+
+Key Features
+• Feature 1
+• Feature 2
+• Feature 3
+
+Impact
+[Short statement]
+
+Videos
+Tech Stack Explanation
+[Video Player]
+
+Project Working Demo
+[Video Player]
+
+--------------------------------------------------
+
+Add this functionality for the following projects:
+
+Project 1
+Vendor Portal Data Extraction Automation
+
+Overview:
+Automated the extraction of operational data from a vendor portal to eliminate manual data collection and structure the information for reporting and analysis.
+
+Tech Stack:
+Python
+Automation
+Data Extraction
+
+Key Features:
+• Automated login and data retrieval
+• Structured data extraction workflow
+• Organized output datasets for reporting
+• Reduced repetitive manual effort
+
+Impact:
+Reduced manual data collection time and improved operational reporting efficiency.
+
+--------------------------------------------------
+
+Project 2
+Excel Workflow Automation for Transfer Processing
+
+Overview:
+Developed an Excel-based workflow automation system to manage and validate transfer records, reducing repetitive manual operations.
+
+Tech Stack:
+Excel
+VBA
+Process Automation
+
+Key Features:
+• Automated validation of transfer records
+• Data organization and workflow structuring
+• VBA logic for automated processing
+• Reduced repetitive tasks
+
+Impact:
+Improved accuracy and significantly reduced manual operational workload.
+
+--------------------------------------------------
+
+Project 3
+Operational Data Reporting Automation
+
+Overview:
+Designed structured MIS reporting workflows that collect operational data and generate organized reports for business monitoring.
+
+Tech Stack:
+Excel
+Data Analysis
+MIS Reporting
+
+Key Features:
+• Structured operational reporting
+• KPI monitoring workflows
+• Data validation and cleaning
+• Report generation templates
+
+Impact:
+Improved reporting speed and visibility into operational metrics.
+
+--------------------------------------------------
+
+Project 4
+Automated Data Processing Scripts
+
+Overview:
+Created Python-based scripts to process large operational datasets and transform them into structured outputs for analysis.
+
+Tech Stack:
+Python
+Data Processing
+Automation
+
+Key Features:
+• Batch data processing
+• Data validation checks
+• Structured output generation
+• Improved data preparation workflows
+
+Impact:
+Enabled faster analysis by automating large dataset processing.
+
+--------------------------------------------------
+
+UI Requirements
+
+• Use a modal popup overlay when "View Details" is clicked
+• Add a close button on the modal
+• Add smooth animation when the modal opens
+• Ensure videos are responsive
+• Maintain the current dark theme styling
+• Keep the existing project card design unchanged

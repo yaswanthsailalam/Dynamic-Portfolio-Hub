@@ -1,0 +1,14 @@
+{
+  "name": "@workspace/api-server-python",
+  "version": "1.0.0",
+  "description": "Python FastAPI backend for Portfolio",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon --ext py --exec venv\\Scripts\\python.exe main.py",
+    "start": "venv\\Scripts\\python.exe main.py",
+    "prod": "set ENVIRONMENT=production && venv\\Scripts\\python.exe main.py"
+  },
+  "engines": {
+    "python": ">=3.9"
+  }
+}
