@@ -1,6 +1,6 @@
 [build]
-  # The command to build the project
-  command = "npm run build"
+  # Target only the portfolio project to bypass errors in other workspace folders
+  command = "npm run build --workspace=@workspace/portfolio"
   
   # The directory to publish
   publish = "artifacts/portfolio/dist/public"
