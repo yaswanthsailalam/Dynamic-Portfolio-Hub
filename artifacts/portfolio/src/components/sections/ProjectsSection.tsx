@@ -71,10 +71,10 @@ const FALLBACK_PROJECTS: Project[] = [
       "Lead Time Optimization: Reduced daily manual parsing from 60 mins to zero"
     ],
     workflow: [
-      { icon: "HardDrive", title: "Data Ingestion", description: "Automatically reads and imports multiple source files from shared directories." },
-      { icon: "Filter", title: "Intelligent Cleaning", description: "Strips out empty records and dynamically filters non-essential data columns." },
-      { icon: "Zap", title: "Data Reconciliation", description: "Processes structured matching logic to reliably cross-reference operational IDs with corresponding sales." },
-      { icon: "FileCheck", title: "Final Reporting", description: "Outputs a clean, standardized, and audit-ready dataset for stakeholders." }
+      { icon: HardDrive, title: "Data Ingestion", description: "Automatically reads and imports multiple source files from shared directories." },
+      { icon: Filter, title: "Intelligent Cleaning", description: "Strips out empty records and dynamically filters non-essential data columns." },
+      { icon: Zap, title: "Data Reconciliation", description: "Processes structured matching logic to reliably cross-reference operational IDs with corresponding sales." },
+      { icon: FileCheck, title: "Final Reporting", description: "Outputs a clean, standardized, and audit-ready dataset for stakeholders." }
     ]
   },
   {
@@ -103,10 +103,10 @@ const FALLBACK_PROJECTS: Project[] = [
       "Extracted Coverage: Comprehensive support for leading diagnostics vendor networks"
     ],
     workflow: [
-      { icon: "Database", title: "Data Extraction", description: "Headless automation pulls raw test records from primary diagnostics portals." },
-      { icon: "Layers", title: "Normalization", description: "Deduplicates and maps heterogenous service statuses into a unified format." },
-      { icon: "PieChart", title: "Daily Reporting", description: "Aggregates transactions into a standardized daily Excel MIS dashboard." },
-      { icon: "ShieldCheck", title: "Audit Generation", description: "Compares fulfillment vs invoices to automate Month-on-Month vendor audits." }
+      { icon: Database, title: "Data Extraction", description: "Headless automation pulls raw test records from primary diagnostics portals." },
+      { icon: Layers, title: "Normalization", description: "Deduplicates and maps heterogenous service statuses into a unified format." },
+      { icon: PieChart, title: "Daily Reporting", description: "Aggregates transactions into a standardized daily Excel MIS dashboard." },
+      { icon: ShieldCheck, title: "Audit Generation", description: "Compares fulfillment vs invoices to automate Month-on-Month vendor audits." }
     ]
   }
 ];
@@ -116,7 +116,7 @@ function WorkflowDiagram({ steps }: { steps: WorkflowStep[] }) {
   return (
     <div className="flex flex-col md:flex-row items-stretch gap-3">
       {steps.map((step, i) => {
-        const Icon: any = typeof step.icon === "string" ? getIconComponent(step.icon) : step.icon;
+        const Icon = step.icon;
         return (
           <div key={step.title} className="flex flex-col md:flex-row items-center flex-1 min-w-0">
             {/* Step card */}
